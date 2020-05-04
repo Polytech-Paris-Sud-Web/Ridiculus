@@ -1,7 +1,15 @@
 <mat-card class="example-card">
 
     <mat-card-header>
-        <mat-card-title>{{ poste.title }}</mat-card-title>
+        <mat-card-title>
+            {{ poste.title }}
+            <button *ngIf="userOfflineAccess" mat-icon-button color="primary" title="accessible hore ligne">
+                <mat-icon>offline_pin</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="actions" color="primary">
+                <mat-icon>more_horiz</mat-icon>
+            </button>
+        </mat-card-title>
         <mat-card-subtitle>
             Le {{ poste.dateCreated | date:'short' }}, {{ poste.author }} a écrit
         </mat-card-subtitle>
@@ -17,11 +25,12 @@
 
         <div class="vote">
             Qualité: <strong>{{ poste.vote }}</strong>&nbsp;
-            <mat-button-toggle-group color="primary" name="fontStyle" aria-label="Font Style">
-                <mat-button-toggle value="up_vode">
+            <mat-button-toggle-group [value]="userVote" (change)="changeVote($event.value)" color="primary"
+                name="fontStyle" aria-label="Font Style">
+                <mat-button-toggle [value]="+1">
                     <mat-icon>thumb_up</mat-icon>
                 </mat-button-toggle>
-                <mat-button-toggle value="down_vote">
+                <mat-button-toggle [value]="-1">
                     <mat-icon>thumb_down</mat-icon>
                 </mat-button-toggle>
             </mat-button-toggle-group>
@@ -35,3 +44,15 @@
 
     </mat-card-actions>
 </mat-card>
+
+<mat-menu #actions="matMenu">
+    <button mat-menu-item (click)="toggleOfflinePost()">
+        <mat-icon [color]="userOfflineAccess ? 'primary' : 'default'">power_off</mat-icon>Accès hore ligne
+    </button>
+    <button mat-menu-item disabled>
+        <mat-icon>edit</mat-icon>Editer
+    </button>
+    <button mat-menu-item disabled>
+        <mat-icon>delete</mat-icon>Supprimer
+    </button>
+</mat-menu>
