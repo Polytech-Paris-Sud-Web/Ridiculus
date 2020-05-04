@@ -1,0 +1,58 @@
+<mat-card class="example-card">
+
+    <mat-card-header>
+        <mat-card-title>
+            {{ poste.title }}
+            <button *ngIf="userOfflineAccess" mat-icon-button color="primary" title="accessible hore ligne">
+                <mat-icon>offline_pin</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="actions" color="primary">
+                <mat-icon>more_horiz</mat-icon>
+            </button>
+        </mat-card-title>
+        <mat-card-subtitle>
+            Le {{ poste.dateCreated | date:'short' }}, {{ poste.author }} a écrit
+        </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        {{ poste.content }}
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-actions class="poste_vote_info">
+
+        <div class="vote">
+            Qualité: <strong>{{ poste.vote }}</strong>&nbsp;
+            <mat-button-toggle-group [value]="userVote" (change)="changeVote($event.value)" color="primary"
+                name="fontStyle" aria-label="Font Style">
+                <mat-button-toggle [value]="+1">
+                    <mat-icon>thumb_up</mat-icon>
+                </mat-button-toggle>
+                <mat-button-toggle [value]="-1">
+                    <mat-icon>thumb_down</mat-icon>
+                </mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+
+        <div class="more_info">
+            <mat-card-subtitle>Mis en ligne le {{poste.dateUploaded | date:'short' }}</mat-card-subtitle>
+            <mat-card-subtitle>Edité par {{poste.modificator}}, le {{poste.dateModificator | date:'short' }}
+            </mat-card-subtitle>
+        </div>
+
+    </mat-card-actions>
+</mat-card>
+
+<mat-menu #actions="matMenu">
+    <button mat-menu-item (click)="toggleOfflinePost()">
+        <mat-icon [color]="userOfflineAccess ? 'primary' : 'default'">power_off</mat-icon>Accès hore ligne
+    </button>
+    <button mat-menu-item disabled>
+        <mat-icon>edit</mat-icon>Editer
+    </button>
+    <button mat-menu-item disabled>
+        <mat-icon>delete</mat-icon>Supprimer
+    </button>
+</mat-menu>
