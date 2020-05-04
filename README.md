@@ -1,6 +1,6 @@
 
 
-linl: https://polytech-paris-sud-web.github.io/Ridiculus/
+link: https://polytech-paris-sud-web.github.io/Ridiculus/
 
 # Ridiculus
 
