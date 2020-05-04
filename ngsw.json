@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1588587408131,
+  "timestamp": 1588591153565,
   "index": "/Ridiculus/index.html",
   "assetGroups": [
     {
@@ -49,7 +49,7 @@
     "/Ridiculus/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "/Ridiculus/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/Ridiculus/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/Ridiculus/index.html": "91e6197b565d447a0bea6da530b8b50fbf4b8dad",
+    "/Ridiculus/index.html": "cf202e74833443063a00dbf9517b66494efdf6bb",
     "/Ridiculus/main-es2015.b66b5ceaea5e70bc50fd.js": "2665699eb8e6c307f9fc8c13006df6b5e3ec48fb",
     "/Ridiculus/main-es5.b66b5ceaea5e70bc50fd.js": "c810cc4a4f6919373a8f395a3b4cc6b8e1ccede1",
     "/Ridiculus/manifest.webmanifest": "7d674ea76946075d9db2fd0347880aeca0d48e8d",
