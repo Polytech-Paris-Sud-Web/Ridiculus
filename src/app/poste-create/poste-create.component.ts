@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { PosteSource } from '../services/poste.source';
 import { CreatePoste } from '../poste/poste.class';
 import { Router } from '@angular/router';
+import { ErrorManagerService } from '../services/error-manager.service';
 
 @Component({
   selector: 'app-poste-create',
@@ -15,6 +16,7 @@ export class PosteCreateComponent implements OnInit {
   loadingBuff: number;
 
   constructor(
+    private errorManager: ErrorManagerService,
     private router: Router,
     private posteSource: PosteSource,
     private fb: FormBuilder
@@ -46,7 +48,7 @@ export class PosteCreateComponent implements OnInit {
       },
       (error) => {
         this.loadingBuff--;
-        throw new Error(`Erreur lors de la création du poste. ${error}`);
+        this.errorManager.showErrorMessage('Erreur lors de la création du poste.', error);
       }
     );
   }

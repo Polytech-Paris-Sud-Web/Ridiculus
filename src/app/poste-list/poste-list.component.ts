@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 
 import { PosteLight } from '../poste/poste.class';
 import { PosteSource } from '../services/poste.source';
+import { ErrorManagerService } from '../services/error-manager.service';
 
 @Component({
   selector: 'app-poste-list',
@@ -22,7 +23,10 @@ export class PosteListComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
-  constructor(private posteSource: PosteSource) {
+  constructor(
+    private errorManager: ErrorManagerService,
+    private posteSource: PosteSource
+  ) {
     this.loadingBuff = 0;
     this.refreshPostList();
   }
@@ -37,7 +41,7 @@ export class PosteListComponent implements OnInit {
       },
       (error) => {
         this.loadingBuff--;
-        throw new Error(`Impossible de charger la liste des postes. ${error}`);
+        this.errorManager.showErrorMessage('Impossible de charger la liste des postes.', error);
       }
     );
   }

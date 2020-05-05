@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Poste, VoteType } from './poste.class';
 import { PosteSource } from '../services/poste.source';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ErrorManagerService } from '../services/error-manager.service';
 
 @Component({
   selector: 'app-poste',
@@ -21,6 +22,7 @@ export class PosteComponent implements OnInit {
 
 
   constructor(
+    private errorManager: ErrorManagerService,
     private router: Router,
     private route: ActivatedRoute,
     private posteSource: PosteSource
@@ -40,7 +42,7 @@ export class PosteComponent implements OnInit {
       },
       (error) => { 
         this.router.navigate(['/postes']);
-        throw new Error(`Impossible de charger le poste. ${error}`) 
+        this.errorManager.showErrorMessage('Impossible de charger le poste.', error); 
       }
     );
   }
@@ -54,7 +56,7 @@ export class PosteComponent implements OnInit {
       },
       (error) => {
         this.loadingBuff--;
-        throw new Error(`Impossible de voter pour ce poste. ${error}`);
+        this.errorManager.showErrorMessage('Impossible de voter pour ce poste.', error);
       }
     );
   }
@@ -68,7 +70,7 @@ export class PosteComponent implements OnInit {
       },
       (error) => {
         this.loadingBuff--;
-        throw new Error(`Impossible d'obtenir le vote de l'utilisateur voter pour ce poste. ${error}`);
+        this.errorManager.showErrorMessage('Impossible d\'obtenir votre vote voter pour ce poste.', error);
       }
     );
   }
@@ -86,7 +88,7 @@ export class PosteComponent implements OnInit {
       },
       (error) => { 
         this.loadingBuff--;
-        throw new Error(`Impossible d'actualiser le status hors connexion pour ce poste. ${error}`);
+        this.errorManager.showErrorMessage('Impossible d\'actualiser le status hors connexion pour ce poste.', error);
       }
     );
   }
@@ -100,7 +102,7 @@ export class PosteComponent implements OnInit {
       },
       (error) => { 
         this.loadingBuff--;
-        throw new Error(`Impossible d'obtenir le status hors connexion pour ce poste. ${error}`);
+        this.errorManager.showErrorMessage('Impossible d\'obtenir le status hors connexion pour ce poste.', error);
       }
     );
   }
@@ -118,8 +120,10 @@ export class PosteComponent implements OnInit {
         this.loadingBuff--;
         if(!this.poste){
           this.router.navigate(['/postes']);
+          this.errorManager.showErrorMessage('Impossible de trouver un poste avec l\'identifiant demandé', error);
+        } else {
+          this.errorManager.showErrorMessage('Impossible d\'actualiser le poste.', error);
         }
-        throw new Error(`Impossible d'actualiser le poste. ${error}`);
       }
     )
   }
