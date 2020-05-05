@@ -1,0 +1,34 @@
+<div class="example-container mat-elevation-z8">
+
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <caption hidden>Liste des postes</caption>
+
+        <ng-container matColumnDef="vote">
+            <th id="row_vote" mat-header-cell *matHeaderCellDef mat-sort-header> Votes </th>
+            <td mat-cell *matCellDef="let element"> {{ element.vote }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="title">
+            <th id="row_title" mat-header-cell *matHeaderCellDef mat-sort-header> Titre </th>
+            <td mat-cell *matCellDef="let element"> {{ element.title }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="author">
+            <th id="row_author" mat-header-cell *matHeaderCellDef mat-sort-header> Auteur </th>
+            <td mat-cell *matCellDef="let element"> {{ element.author }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateModificator">
+            <th id="row_date_update" mat-header-cell *matHeaderCellDef mat-sort-header> Dernière mise à jour </th>
+            <td mat-cell *matCellDef="let element"> {{ element.dateModificator | date:'short' }} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row" [routerLink]="['/postes/', row.id]"></tr>
+
+
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[30]" showFirstLastButtons ></mat-paginator>
+</div>
