@@ -1,13 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-
-import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, Routes } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AppComponent } from './app.component';
 import { PosteComponent } from './poste/poste.component';
-import { RouterModule, Routes } from '@angular/router';
+import { PosteListComponent } from './poste-list/poste-list.component';
+import { MenuComponent } from './menu/menu.component';
+
+import { PosteSource } from './services/poste.source';
+import { PosteServiceHTTP } from './services/poste.service.http';
+import { PosteServiceInMemory } from './services/poste.service.in-memory';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -15,13 +21,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
-import { PosteListComponent } from './poste-list/poste-list.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
-import { PosteSource } from './services/poste.source';
-import { PosteServiceHTTP } from './services/poste.service.http';
-import { PosteServiceInMemory } from './services/poste.service.in-memory';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/postes', pathMatch: 'full' },
@@ -33,7 +36,8 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     PosteComponent,
-    PosteListComponent
+    PosteListComponent,
+    MenuComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -49,7 +53,8 @@ const appRoutes: Routes = [
     MatDividerModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatToolbarModule
   ],
   providers: [
     {

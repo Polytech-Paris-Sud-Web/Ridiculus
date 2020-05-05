@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { Poste, PosteLight, CreatePoste } from '../poste/poste.class';
+import { Poste, PosteLight, CreatePoste, VoteType } from '../poste/poste.class';
 import { environment } from './../../environments/environment';
 import { PosteSource } from './poste.source';
 
@@ -133,7 +133,7 @@ export class PosteServiceInMemory implements PosteSource {
     return of(poste.vote);
   }
 
-  getPostVoteForUser(posteId: string, user: string): Observable<number> {
+  getPostVoteForUser(posteId: string, user: string): Observable<VoteType> {
     const user_vote = this.userVotes[posteId] || 0;
     return of(user_vote);
   }

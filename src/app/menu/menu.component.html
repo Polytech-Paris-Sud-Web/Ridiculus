@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <button mat-button routerLink="/postes">Ridiculus</button>
+        <span class="spacer"></span>
+        <button mat-raised-button [matMenuTriggerFor]="postMenu">postes</button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-menu #postMenu="matMenu">
+    <button mat-menu-item routerLink="/postes">
+        <mat-icon aria-hidden="false" aria-label="Créer un nouveau post">list</mat-icon> parcourir tous les postes
+    </button>
+    <button mat-menu-item disabled>
+        <mat-icon aria-hidden="false" aria-label="Créer un nouveau post">create</mat-icon> créer un nouveau poste
+    </button>
+    <button mat-menu-item disabled>
+        <mat-icon aria-hidden="false" aria-label="Créer un nouveau post">power_off</mat-icon> postes accessible hors
+        ligne
+    </button>
+</mat-menu>

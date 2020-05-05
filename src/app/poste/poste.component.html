@@ -24,14 +24,17 @@
     <mat-card-actions class="poste_vote_info">
 
         <div class="vote">
-            Qualité: <strong>{{ poste.vote }}</strong>&nbsp;
-            <mat-button-toggle-group [value]="userVote" (change)="updateVote($event.value)" color="primary"
+            Qualité:&nbsp;
+            <mat-button-toggle-group color="accent" [value]="userVote" (change)="updateVote($event.value)"
                 name="fontStyle" aria-label="Font Style">
-                <mat-button-toggle [value]="+1" aria-label="vous trouvez ce poste bien">
-                    <mat-icon>thumb_up</mat-icon>
+                <mat-button-toggle [value]="voteType.UP" aria-label="vous trouvez ce poste bien">
+                    <mat-icon>exposure_plus_1</mat-icon>
                 </mat-button-toggle>
-                <mat-button-toggle [value]="-1" aria-label="vous ne trouvez pas ce poste bien">
-                    <mat-icon>thumb_down</mat-icon>
+                <mat-button-toggle [value]="voteType.NONE" aria-label="pas d'avis sur ce poste">
+                    <strong class="quality_mark">{{ poste.vote }}</strong>
+                </mat-button-toggle>
+                <mat-button-toggle [value]="voteType.DOWN" aria-label="vous ne trouvez pas ce poste bien">
+                    <mat-icon>exposure_neg_1</mat-icon>
                 </mat-button-toggle>
             </mat-button-toggle-group>
         </div>
