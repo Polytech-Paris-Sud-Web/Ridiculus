@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
 })
 export class PosteCreateComponent implements OnInit {
 
-  posteForm : FormGroup;
+  posteForm: FormGroup;
+  loadingBuff: number;
 
   constructor(
     private router: Router,
@@ -19,25 +20,34 @@ export class PosteCreateComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.posteForm = this.fb.group({
-      title: ['', Validators.required ],
-      content : ['', Validators.required ],
+      title: ['', Validators.required],
+      content: ['', Validators.required],
     });
+    this.loadingBuff = 0;
   }
 
   ngOnInit(): void {
   }
 
   createPoste(): void {
+    this.loadingBuff++;
+
     let { title, content } = this.posteForm.value;
     let newPoste: CreatePoste = {
-      title, 
+      title,
       content,
       author: 'user'
     };
 
     this.posteSource.addPoste(newPoste).subscribe(
-      (poste) => this.router.navigate(['postes',poste.id]),
-      (error) => { throw new Error(`Erreur lors de la création du poste. ${error}`)}
+      (poste) => {
+          this.loadingBuff--;
+          this.router.navigate(['postes', poste.id]);
+      },
+      (error) => {
+        this.loadingBuff--;
+        throw new Error(`Erreur lors de la création du poste. ${error}`);
+      }
     );
   }
 

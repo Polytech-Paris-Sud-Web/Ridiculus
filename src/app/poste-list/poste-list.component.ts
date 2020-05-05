@@ -14,6 +14,7 @@ import { PosteSource } from '../services/poste.source';
 export class PosteListComponent implements OnInit {
 
   posteList: PosteLight[] = [];
+  loadingBuff: number;
 
   displayedColumns: string[] = ['vote', 'title', 'author', 'dateModificator'];
   dataSource: MatTableDataSource<PosteLight>;
@@ -22,16 +23,20 @@ export class PosteListComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(private posteSource: PosteSource) {
+    this.loadingBuff = 0;
     this.refreshPostList();
   }
 
   refreshPostList(): void {
+    this.loadingBuff++;
     this.posteSource.getPostes().subscribe(
       (postes) => {
         this.posteList = postes;
         this.dataSource = new MatTableDataSource<PosteLight>(this.posteList);
+        this.loadingBuff--;
       },
       (error) => {
+        this.loadingBuff--;
         throw new Error(`Impossible de charger la liste des postes. ${error}`);
       }
     );

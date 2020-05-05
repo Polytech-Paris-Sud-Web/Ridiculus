@@ -29,9 +29,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { PosteCreateComponent } from './poste-create/poste-create.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/postes', pathMatch: 'full' },
+  { path: '', component: PosteListComponent },
   { path: 'postes', component: PosteListComponent },
   { path: 'postes/:id', component: PosteComponent },
   { path: 'new-poste', component: PosteCreateComponent },
@@ -63,7 +64,8 @@ const appRoutes: Routes = [
     MatSortModule,
     MatToolbarModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressBarModule
   ],
   providers: [
     {

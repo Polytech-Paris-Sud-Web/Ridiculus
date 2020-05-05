@@ -1,3 +1,4 @@
+<mat-progress-bar *ngIf="loadingBuff > 0" color="accent" mode="indeterminate"></mat-progress-bar>
 <mat-card>
     <form [formGroup]="posteForm" (ngSubmit)="createPoste()">
         <mat-card-header>

@@ -1,5 +1,6 @@
+<mat-progress-bar *ngIf="loadingBuff > 0" color="accent" mode="indeterminate"></mat-progress-bar>
 <div class="example-container mat-elevation-z8">
-
+    
     <table mat-table [dataSource]="dataSource" matSort>
 
         <caption hidden>Liste des postes</caption>
