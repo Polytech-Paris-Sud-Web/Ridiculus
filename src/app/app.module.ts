@@ -4,6 +4,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
@@ -25,11 +26,17 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { PosteCreateComponent } from './poste-create/poste-create.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/postes', pathMatch: 'full' },
+  { path: '', component: PosteListComponent },
   { path: 'postes', component: PosteListComponent },
-  { path: 'postes/:id', component: PosteComponent }
+  { path: 'postes/:id', component: PosteComponent },
+  { path: 'new-poste', component: PosteCreateComponent },
 ]
 
 @NgModule({
@@ -37,12 +44,14 @@ const appRoutes: Routes = [
     AppComponent,
     PosteComponent,
     PosteListComponent,
-    MenuComponent
+    MenuComponent,
+    PosteCreateComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ReactiveFormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatCardModule,
@@ -54,7 +63,11 @@ const appRoutes: Routes = [
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressBarModule,
+    MatSnackBarModule
   ],
   providers: [
     {

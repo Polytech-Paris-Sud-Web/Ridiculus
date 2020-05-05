@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { Poste, PosteLight, CreatePoste, VoteType } from '../poste/poste.class';
 import { environment } from './../../environments/environment';
 import { PosteSource } from './poste.source';
@@ -78,7 +78,7 @@ export class PosteServiceInMemory implements PosteSource {
       this.postes.splice(postIndex, 1, posteData);
       return of(posteData);
     } else {
-      throw new Error(`Poste avec l'id [${id}] introuvable`);
+      return throwError(`Poste avec l'id [${id}] introuvable`);
     }
   }
 
@@ -88,7 +88,7 @@ export class PosteServiceInMemory implements PosteSource {
       this.postes.splice(postIndex, 1);
       return of(undefined);
     } else {
-      throw new Error(`Poste avec l'id [${id}] introuvable`);
+      return throwError(`Poste avec l'id [${id}] introuvable`);
     }
   }
 
@@ -97,7 +97,7 @@ export class PosteServiceInMemory implements PosteSource {
     if (poste) {
       return of(poste);
     } else {
-      throw new Error(`Poste avec l'id [${id}] introuvable`);
+      return throwError(`Poste avec l'id [${id}] introuvable`);
     }
   }
 
@@ -127,7 +127,7 @@ export class PosteServiceInMemory implements PosteSource {
       poste.vote += vote - (this.userVotes[posteId] || 0);
       this.userVotes[posteId] = vote;
     } else {
-      throw new Error(`Impossible de trouver le poste avec l'id [${posteId}]`);
+      return throwError(`Impossible de trouver le poste avec l'id [${posteId}]`);
     }
 
     return of(poste.vote);
