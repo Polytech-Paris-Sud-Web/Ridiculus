@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { Poste, PosteLight, CreatePoste } from '../poste/poste.class';
+import { Poste, PosteLight, CreatePoste, VoteType } from '../poste/poste.class';
 import { environment } from './../../environments/environment';
 import { PosteSource } from './poste.source';
 
@@ -45,7 +45,7 @@ export class PosteServiceHTTP implements PosteSource {
     throw new Error("Method not implemented.");
   }
 
-  getPostVoteForUser(posteId: string, user: string): Observable<number> {
+  getPostVoteForUser(posteId: string, user: string): Observable<VoteType> {
     throw new Error("Method not implemented.");
   }
 

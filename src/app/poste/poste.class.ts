@@ -1,5 +1,7 @@
+import { ID } from '../common.class';
+
 export interface PosteLight {
-    id : string,
+    id : ID,
     title : string,
     author : string,
     dateCreated : Date,
@@ -17,4 +19,10 @@ export interface CreatePoste {
     title : string,
     content : string,
     author : string
+}
+
+export enum VoteType {
+    UP = 1,
+    NONE = 0,
+    DOWN = -1,
 }

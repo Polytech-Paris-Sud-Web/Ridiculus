@@ -1,8 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Poste } from './poste.class';
+import { Poste, VoteType } from './poste.class';
 import { PosteSource } from '../services/poste.source';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-poste',
@@ -14,8 +13,11 @@ export class PosteComponent implements OnInit {
   @Input('poste')
   poste: Poste;
 
+  readonly voteType = VoteType;
+  
   userOfflineAccess: boolean;
-  userVote: number;
+  userVote: VoteType;
+
 
   constructor(
     private router: Router,
@@ -36,7 +38,7 @@ export class PosteComponent implements OnInit {
     );
   }
 
-  updateVote(vote: number): void {
+  updateVote(vote: VoteType): void {
     this.posteSource.setPostVoteForUser(this.poste.id, 'user', vote).subscribe(
       (vote) => this.poste.vote = vote,
       (error) =>　{ throw new Error(`Impossible de voter pour ce poste. ${error}`) }
