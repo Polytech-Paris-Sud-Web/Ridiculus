@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Poste } from './post.class';
+import { Poste } from './poste.class';
 
 @Component({
   selector: 'app-poste',
