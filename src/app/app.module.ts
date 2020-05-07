@@ -37,7 +37,7 @@ const appRoutes: Routes = [
   { path: 'postes', component: PosteListComponent },
   { path: 'postes/:id', component: PosteComponent },
   { path: 'new-poste', component: PosteCreateComponent },
-]
+];
 
 @NgModule({
   declarations: [

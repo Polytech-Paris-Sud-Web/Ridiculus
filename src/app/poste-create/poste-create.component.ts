@@ -4,6 +4,7 @@ import { PosteSource } from '../services/poste.source';
 import { CreatePoste } from '../poste/poste.class';
 import { Router } from '@angular/router';
 import { ErrorManagerService } from '../services/error-manager.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-poste-create',
@@ -34,23 +35,20 @@ export class PosteCreateComponent implements OnInit {
   createPoste(): void {
     this.loadingBuff++;
 
-    let { title, content } = this.posteForm.value;
-    let newPoste: CreatePoste = {
+    const { title, content } = this.posteForm.value;
+    const newPoste: CreatePoste = {
       title,
       content,
       author: 'user'
     };
 
-    this.posteSource.addPoste(newPoste).subscribe(
-      (poste) => {
-          this.loadingBuff--;
-          this.router.navigate(['postes', poste.id]);
-      },
-      (error) => {
-        this.loadingBuff--;
-        this.errorManager.showErrorMessage('Erreur lors de la création du poste.', error);
-      }
-    );
+    this.posteSource
+      .addPoste(newPoste)
+      .pipe(finalize(() => this.loadingBuff--))
+      .subscribe(
+        poste => this.router.navigate(['postes', poste.id]),
+        error => this.errorManager.showErrorMessage('Erreur lors de la création du poste.', error)
+      );
   }
 
 }
