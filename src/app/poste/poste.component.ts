@@ -1,9 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { finalize, first } from 'rxjs/operators';
 import { Poste, VoteType } from './poste.class';
 import { PosteSource } from '../services/poste.source';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ErrorManagerService } from '../services/error-manager.service';
+import { ID } from '../common.class';
+import { concat, iif, of } from 'rxjs';
+import { OfflineDBService } from '../services/offline-db.service';
 
 @Component({
   selector: 'app-poste',
@@ -12,7 +15,7 @@ import { ErrorManagerService } from '../services/error-manager.service';
 })
 export class PosteComponent implements OnInit {
 
-  @Input('poste')
+  @Input()
   poste: Poste;
 
   readonly voteType = VoteType;
@@ -23,6 +26,7 @@ export class PosteComponent implements OnInit {
 
 
   constructor(
+    private offlineDBService: OfflineDBService,
     private errorManager: ErrorManagerService,
     private router: Router,
     private route: ActivatedRoute,
@@ -34,8 +38,9 @@ export class PosteComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(
       params => {
-        if ("id" in params) {
-          this.updatePoste(params.id);
+        if (!isNaN(params.id)) {
+          const id = Number(params.id);
+          this.updatePoste(id);
         } else {
           this.updateUserOfflineAccess();
           this.setUserVote();
@@ -54,7 +59,7 @@ export class PosteComponent implements OnInit {
       .setPostVoteForUser(this.poste.id, 'user', vote)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
-        vote => this.poste.vote = vote,
+        theVote => this.poste.vote = theVote,
         error => this.errorManager.showErrorMessage('Impossible de voter pour ce poste.', error)
       );
   }
@@ -72,9 +77,13 @@ export class PosteComponent implements OnInit {
 
   toggleOfflinePost(): void {
     this.loadingBuff++;
-    this.posteSource
-      .setOfflineStatusPostForUser(this.poste.id, 'user', !this.userOfflineAccess)
-      .pipe(finalize(() => this.loadingBuff--))
+    const willHaveOnlineAccessToPost = !this.userOfflineAccess;
+
+    const updateOfflinePosteList =  willHaveOnlineAccessToPost
+      ? this.offlineDBService.insertPoste(this.poste)
+      : this.offlineDBService.removePoste(this.poste.id);
+
+    updateOfflinePosteList.pipe(finalize(() => this.loadingBuff--))
       .subscribe(
         () => this.updateUserOfflineAccess(),
         error => this.errorManager.showErrorMessage('Impossible d\'actualiser le status hors connexion pour ce poste.', error)
@@ -83,16 +92,15 @@ export class PosteComponent implements OnInit {
 
   updateUserOfflineAccess(): void {
     this.loadingBuff++;
-    this.posteSource
-      .isPostOfflineForUser(this.poste.id, 'user')
+    this.offlineDBService.findPosteById(this.poste.id)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
-        hasAcces => this.userOfflineAccess = hasAcces,
+        posteFound => this.userOfflineAccess = !!posteFound,
         error => this.errorManager.showErrorMessage('Impossible d\'obtenir le status hors connexion pour ce poste.', error)
       );
   }
 
-  updatePoste(id: string) {
+  updatePoste(id: ID) {
     this.loadingBuff++;
     this.posteSource
       .getPosteById(id)
@@ -111,7 +119,7 @@ export class PosteComponent implements OnInit {
             this.errorManager.showErrorMessage('Impossible d\'actualiser le poste.', error);
           }
         }
-      )
+      );
   }
 
 }

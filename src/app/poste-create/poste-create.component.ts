@@ -35,8 +35,8 @@ export class PosteCreateComponent implements OnInit {
   createPoste(): void {
     this.loadingBuff++;
 
-    let { title, content } = this.posteForm.value;
-    let newPoste: CreatePoste = {
+    const { title, content } = this.posteForm.value;
+    const newPoste: CreatePoste = {
       title,
       content,
       author: 'user'

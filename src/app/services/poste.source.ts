@@ -1,25 +1,22 @@
 import { Observable } from 'rxjs';
 import { Poste, CreatePoste, PosteLight, VoteType } from '../poste/poste.class';
+import { ID } from '../common.class';
 
 export abstract class PosteSource {
 
     abstract getPostes(): Observable<PosteLight[]>;
 
-    abstract getPosteById(id: string): Observable<Poste>;
+    abstract getPosteById(id: ID): Observable<Poste>;
 
     abstract addPoste(posteData: CreatePoste): Observable<Poste>;
 
-    abstract updatePoste(id: string, posteData: Poste): Observable<Poste>;
+    abstract updatePoste(id: ID, posteData: Poste): Observable<Poste>;
 
-    abstract deletePoste(id: string): Observable<void>;
+    abstract deletePoste(id: ID): Observable<void>;
 
 
-    abstract isPostOfflineForUser(posteId: string, user: string): Observable<boolean>;
+    abstract getPostVoteForUser(posteId: ID, user: string): Observable<VoteType>;
 
-    abstract setOfflineStatusPostForUser(posteId: string, user: string, hasAccessOffline: boolean): Observable<void>;
-    
-    abstract getPostVoteForUser(posteId: string, user: string): Observable<VoteType>;
-
-    abstract setPostVoteForUser(posteId: string, user: string, vote: number): Observable<number>;
+    abstract setPostVoteForUser(posteId: ID, user: string, vote: number): Observable<number>;
 
 }
