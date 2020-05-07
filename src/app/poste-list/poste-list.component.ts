@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PosteLight } from '../poste/poste.class';
 import { PosteSource } from '../services/poste.source';
 import { ErrorManagerService } from '../services/error-manager.service';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-poste-list',
@@ -33,16 +34,14 @@ export class PosteListComponent implements OnInit {
 
   refreshPostList(): void {
     this.loadingBuff++;
-    this.posteSource.getPostes().subscribe(
-      (postes) => {
+    this.posteSource.getPostes()
+    .pipe(finalize(() => this.loadingBuff--))
+    .subscribe(
+      postes => {
         this.posteList = postes;
         this.dataSource = new MatTableDataSource<PosteLight>(this.posteList);
-        this.loadingBuff--;
       },
-      (error) => {
-        this.loadingBuff--;
-        this.errorManager.showErrorMessage('Impossible de charger la liste des postes.', error);
-      }
+      error => this.errorManager.showErrorMessage('Impossible de charger la liste des postes.', error)
     );
   }
 

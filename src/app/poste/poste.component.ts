@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { finalize } from 'rxjs/operators';
 import { Poste, VoteType } from './poste.class';
 import { PosteSource } from '../services/poste.source';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -32,7 +33,7 @@ export class PosteComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(
-      (params) => {
+      params => {
         if ("id" in params) {
           this.updatePoste(params.id);
         } else {
@@ -40,92 +41,77 @@ export class PosteComponent implements OnInit {
           this.setUserVote();
         }
       },
-      (error) => { 
+      error => {
         this.router.navigate(['/postes']);
-        this.errorManager.showErrorMessage('Impossible de charger le poste.', error); 
+        this.errorManager.showErrorMessage('Impossible de charger le poste.', error);
       }
     );
   }
 
   updateVote(vote: VoteType): void {
     this.loadingBuff++;
-    this.posteSource.setPostVoteForUser(this.poste.id, 'user', vote).subscribe(
-      (vote) => {
-        this.poste.vote = vote;
-        this.loadingBuff--;
-      },
-      (error) => {
-        this.loadingBuff--;
-        this.errorManager.showErrorMessage('Impossible de voter pour ce poste.', error);
-      }
-    );
+    this.posteSource
+      .setPostVoteForUser(this.poste.id, 'user', vote)
+      .pipe(finalize(() => this.loadingBuff--))
+      .subscribe(
+        vote => this.poste.vote = vote,
+        error => this.errorManager.showErrorMessage('Impossible de voter pour ce poste.', error)
+      );
   }
 
   setUserVote(): void {
     this.loadingBuff++;
-    this.posteSource.getPostVoteForUser(this.poste.id, 'user').subscribe(
-      (vote) => {
-        this.userVote = vote;
-        this.loadingBuff--;
-      },
-      (error) => {
-        this.loadingBuff--;
-        this.errorManager.showErrorMessage('Impossible d\'obtenir votre vote voter pour ce poste.', error);
-      }
-    );
+    this.posteSource
+      .getPostVoteForUser(this.poste.id, 'user')
+      .pipe(finalize(() => this.loadingBuff--))
+      .subscribe(
+        vote => this.userVote = vote,
+        error => this.errorManager.showErrorMessage('Impossible d\'obtenir votre vote voter pour ce poste.', error)
+      );
   }
 
   toggleOfflinePost(): void {
     this.loadingBuff++;
-    this.posteSource.setOfflineStatusPostForUser(
-      this.poste.id,
-      'user',
-      !this.userOfflineAccess
-    ).subscribe(
-      () => {
-        this.updateUserOfflineAccess();
-        this.loadingBuff--;
-      },
-      (error) => { 
-        this.loadingBuff--;
-        this.errorManager.showErrorMessage('Impossible d\'actualiser le status hors connexion pour ce poste.', error);
-      }
-    );
+    this.posteSource
+      .setOfflineStatusPostForUser(this.poste.id, 'user', !this.userOfflineAccess)
+      .pipe(finalize(() => this.loadingBuff--))
+      .subscribe(
+        () => this.updateUserOfflineAccess(),
+        error => this.errorManager.showErrorMessage('Impossible d\'actualiser le status hors connexion pour ce poste.', error)
+      );
   }
 
   updateUserOfflineAccess(): void {
     this.loadingBuff++;
-    this.posteSource.isPostOfflineForUser(this.poste.id, 'user').subscribe(
-      (hasAcces) => {
-        this.userOfflineAccess = hasAcces;
-        this.loadingBuff--;
-      },
-      (error) => { 
-        this.loadingBuff--;
-        this.errorManager.showErrorMessage('Impossible d\'obtenir le status hors connexion pour ce poste.', error);
-      }
-    );
+    this.posteSource
+      .isPostOfflineForUser(this.poste.id, 'user')
+      .pipe(finalize(() => this.loadingBuff--))
+      .subscribe(
+        hasAcces => this.userOfflineAccess = hasAcces,
+        error => this.errorManager.showErrorMessage('Impossible d\'obtenir le status hors connexion pour ce poste.', error)
+      );
   }
 
   updatePoste(id: string) {
     this.loadingBuff++;
-    this.posteSource.getPosteById(id).subscribe(
-      (poste) => {
-        this.poste = poste;
-        this.updateUserOfflineAccess();
-        this.setUserVote();
-        this.loadingBuff--;
-      },
-      (error) => {
-        this.loadingBuff--;
-        if(!this.poste){
-          this.router.navigate(['/postes']);
-          this.errorManager.showErrorMessage('Impossible de trouver un poste avec l\'identifiant demandé', error);
-        } else {
-          this.errorManager.showErrorMessage('Impossible d\'actualiser le poste.', error);
+    this.posteSource
+      .getPosteById(id)
+      .pipe(finalize(() => this.loadingBuff--))
+      .subscribe(
+        poste => {
+          this.poste = poste;
+          this.updateUserOfflineAccess();
+          this.setUserVote();
+        },
+        error => {
+          if (!this.poste) {
+            this.router.navigate(['/postes']);
+            this.errorManager.showErrorMessage('Impossible de trouver un poste avec l\'identifiant demandé', error);
+          } else {
+            this.errorManager.showErrorMessage('Impossible d\'actualiser le poste.', error);
+          }
         }
-      }
-    )
+      )
   }
 
 }
