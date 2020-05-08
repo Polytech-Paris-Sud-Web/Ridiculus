@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { Poste, PosteLight, CreatePoste, VoteType } from '../poste/poste.class';
-import { environment } from './../../environments/environment';
 import { PosteSource } from './poste.source';
 import { ID } from '../common.class';
+import { OfflineDBService } from './offline-db.service';
 
 @Injectable()
 export class PosteServiceInMemory implements PosteSource {
 
-  private href: string = environment.data_href;
   private postes: Poste[] = [];
-  private offlineUserOfflinePostes: ID[] = [];
   private userVotes = {};
 
   constructor(
+    private offlineDBService: OfflineDBService
   ) {
     this.postes.push({
       id: 1234,
@@ -119,7 +118,6 @@ export class PosteServiceInMemory implements PosteSource {
       delete fullPoste.content;
       return fullPoste;
     });
-
     return of(postesLight);
   }
 
@@ -142,6 +140,7 @@ export class PosteServiceInMemory implements PosteSource {
     const postIndex = this.postes.findIndex(_ => _.id === id);
     if (postIndex !== -1) {
       this.postes.splice(postIndex, 1, posteData);
+      this.offlineDBService.updatePoste(id, posteData).subscribe();
       return of(posteData);
     } else {
       return throwError(`Poste avec l'id [${id}] introuvable`);
@@ -152,7 +151,7 @@ export class PosteServiceInMemory implements PosteSource {
     const postIndex = this.postes.findIndex(_ => _.id === id);
     if (postIndex !== -1) {
       this.postes.splice(postIndex, 1);
-      return of(undefined);
+      return this.offlineDBService.removePoste(id);
     } else {
       return throwError(`Poste avec l'id [${id}] introuvable`);
     }
@@ -161,9 +160,10 @@ export class PosteServiceInMemory implements PosteSource {
   getPosteById(id: ID): Observable<Poste> {
     const poste = this.postes.find(_ => _.id === id);
     if (poste) {
+      this.offlineDBService.updatePoste(poste.id, poste).subscribe();
       return of(poste);
     } else {
-      return throwError(`Poste avec l'id [${id}] introuvable`);
+      return this.offlineDBService.findPosteById(id);
     }
   }
 

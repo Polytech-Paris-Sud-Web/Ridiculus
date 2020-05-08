@@ -1,19 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
-
 import { PosteLight } from '../poste/poste.class';
-import { PosteSource } from '../services/poste.source';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { MatPaginator } from '@angular/material/paginator';
 import { ErrorManagerService } from '../services/error-manager.service';
 import { finalize } from 'rxjs/operators';
+import { OfflineDBService } from '../services/offline-db.service';
 
 @Component({
-  selector: 'app-poste-list',
-  templateUrl: './poste-list.component.html',
-  styleUrls: ['./poste-list.component.scss']
+  selector: 'app-poste-list-offline',
+  templateUrl: './poste-list-offline.component.html',
+  styleUrls: ['./poste-list-offline.component.scss']
 })
-export class PosteListComponent implements OnInit {
+export class PosteListOfflineComponent implements OnInit {
 
   posteList: PosteLight[] = [];
   loadingBuff: number;
@@ -26,7 +25,7 @@ export class PosteListComponent implements OnInit {
 
   constructor(
     private errorManager: ErrorManagerService,
-    private posteSource: PosteSource
+    private posteSource: OfflineDBService,
   ) {
     this.loadingBuff = 0;
     this.refreshPostList();
@@ -49,5 +48,4 @@ export class PosteListComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }
