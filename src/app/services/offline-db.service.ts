@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Dexie } from 'dexie';
+import Dexie from 'dexie';
 import { PosteLight, Poste } from '../poste/poste.class';
 import { Observable, from } from 'rxjs';
 import { ID } from '../common.class';
