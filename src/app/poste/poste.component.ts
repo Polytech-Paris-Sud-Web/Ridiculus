@@ -121,5 +121,20 @@ export class PosteComponent implements OnInit {
         }
       );
   }
+  deletePoste(id: string){
+    this.posteSource.deletePoste(id);
+  }
 
+  remove(){
+    var valeur = prompt("Pour confirmer la supression, entrer le nom du poste");
+    if (valeur == this.poste.title){
+      this.posteSource.deletePoste(this.poste.id);
+      alert("Poste " + valeur + " supprimé");
+    }
+    else{
+      alert("Poste non supprimé");
+    }
+    
+  }
+  
 }
