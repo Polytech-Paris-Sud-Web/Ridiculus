@@ -7,7 +7,7 @@ import { PosteLight } from '../poste/poste.class';
 import { PosteSource } from '../services/poste.source';
 import { ErrorManagerService } from '../services/error-manager.service';
 import { finalize } from 'rxjs/operators';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-poste-list',
@@ -36,7 +36,6 @@ export class PosteListComponent implements OnInit {
       filter: ['']
     })
     this.loadingBuff = 0;
-    this.refreshPostList();
   }
 
   refreshPostList(): void {
@@ -55,6 +54,7 @@ export class PosteListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.refreshPostList();
   }
 
   search({ filter: criteria }: { filter: string }): void {
@@ -65,7 +65,7 @@ export class PosteListComponent implements OnInit {
       .subscribe(
         postes => {
           this.posteList = postes;
-          this.dataSource = new MatTableDataSource<PosteLight>(this.posteList); 
+          this.dataSource = new MatTableDataSource<PosteLight>(this.posteList);
         },
         error => this.errorManager.showErrorMessage('Impossible d\'effectuter cette recherche', error)
       );

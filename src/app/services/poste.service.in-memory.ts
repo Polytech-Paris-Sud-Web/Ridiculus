@@ -4,9 +4,10 @@ import { Poste, PosteLight, CreatePoste, VoteType } from '../poste/poste.class';
 import { PosteSource } from './poste.source';
 import { ID } from '../common.class';
 import { OfflineDBService } from './offline-db.service';
-import { stringify } from 'querystring';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PosteServiceInMemory implements PosteSource {
 
   private postes: Poste[] = [];
