@@ -126,7 +126,7 @@ export class PosteServiceInMemory implements PosteSource {
       ...posteData,
       id: this.postes.length.toString(),
       vote: 0,
-      dateCreated: new Date(),
+      dateCreated: posteData.dateCreated || new Date(),
       dateUploaded: new Date(),
       modificator: posteData.author,
       dateModificator: new Date(),

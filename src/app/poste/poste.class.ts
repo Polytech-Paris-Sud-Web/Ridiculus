@@ -1,4 +1,5 @@
 import { ID } from '../common.class';
+import { V4 as uuid } from 'uuid';
 
 export interface PosteLight {
     id: ID;
@@ -16,9 +17,11 @@ export interface Poste extends PosteLight {
 }
 
 export interface CreatePoste {
+    id?: string;
     title: string;
     content: string;
     author: string;
+    dateCreated?: Date;
 }
 
 export enum VoteType {
