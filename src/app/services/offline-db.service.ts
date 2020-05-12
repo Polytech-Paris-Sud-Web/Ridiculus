@@ -9,7 +9,7 @@ import { ID } from '../common.class';
 })
 export class OfflineDBService {
 
-  private posteTable: Dexie.Table<Poste, number>;
+  private posteTable: Dexie.Table<Poste, ID>;
 
   constructor() {
     const db = new Dexie('offlineStorage');
@@ -19,7 +19,7 @@ export class OfflineDBService {
 
   private setDatabaseSchemaOverVersions(db): void {
     db.version(0.1).stores({
-      postes: 'id,name',
+      postes: 'id,title',
     });
   }
 

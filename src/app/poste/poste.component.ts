@@ -39,8 +39,7 @@ export class PosteComponent implements OnInit {
     this.route.params.subscribe(
       params => {
         if (!isNaN(params.id)) {
-          const id = Number(params.id);
-          this.updatePoste(id);
+          this.updatePoste(params.id);
         } else {
           this.updateUserOfflineAccess();
           this.setUserVote();
