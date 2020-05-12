@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PosteLight } from '../poste/poste.class';
+import { PosteLight, CreatePoste } from '../poste/poste.class';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { ErrorManagerService } from '../services/error-manager.service';
 import { finalize } from 'rxjs/operators';
 import { OfflineDBService } from '../services/offline-db.service';
+import { SynchroDbService } from '../services/synchro-db.service';
 
 @Component({
   selector: 'app-poste-list-offline',
@@ -15,20 +16,28 @@ import { OfflineDBService } from '../services/offline-db.service';
 export class PosteListOfflineComponent implements OnInit {
 
   posteList: PosteLight[] = [];
+  createPosteListe: CreatePoste[] = [];
   loadingBuff: number;
 
-  displayedColumns: string[] = ['vote', 'title', 'author', 'dateModificator'];
-  dataSource: MatTableDataSource<PosteLight>;
+  posteColumns: string[] = ['vote', 'title', 'author', 'dateModificator'];
+  createdPosteColumns: string[] = ['title', 'dateModificator','editAction','publishAction','deleteAction'];
+  dataSourceOfflinePostes: MatTableDataSource<PosteLight>;
+  dataSourceCreatedPostes: MatTableDataSource<CreatePoste>;
 
-  @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  @ViewChild('sortPoste') sortPoste: MatSort;
+  @ViewChild('pagePoste') paginatorPoste: MatPaginator;
+
+  @ViewChild('sortCreated') sortCreated: MatSort;
+  @ViewChild('pageCreated') paginatorCreated: MatPaginator;
 
   constructor(
+    private synchroDbService: SynchroDbService,
     private errorManager: ErrorManagerService,
     private posteSource: OfflineDBService,
   ) {
     this.loadingBuff = 0;
     this.refreshPostList();
+    this.refreshCreatedPosteListe();
   }
 
   refreshPostList(): void {
@@ -38,9 +47,24 @@ export class PosteListOfflineComponent implements OnInit {
     .subscribe(
       postes => {
         this.posteList = postes;
-        this.dataSource = new MatTableDataSource<PosteLight>(this.posteList);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSourceOfflinePostes = new MatTableDataSource<PosteLight>(this.posteList);
+        this.dataSourceOfflinePostes.paginator = this.paginatorPoste;
+        this.dataSourceOfflinePostes.sort = this.sortPoste;
+      },
+      error => this.errorManager.showErrorMessage('Impossible de charger la liste des postes.', error)
+    );
+  }
+
+  refreshCreatedPosteListe(): void {
+    this.loadingBuff++;
+    this.synchroDbService.getNewPostes()
+    .pipe(finalize(() => this.loadingBuff--))
+    .subscribe(
+      postes => {
+        this.createPosteListe = postes;
+        this.dataSourceCreatedPostes = new MatTableDataSource<CreatePoste>(this.createPosteListe);
+        this.dataSourceCreatedPostes.paginator = this.paginatorCreated;
+        this.dataSourceCreatedPostes.sort = this.sortCreated;
       },
       error => this.errorManager.showErrorMessage('Impossible de charger la liste des postes.', error)
     );

@@ -9,17 +9,17 @@ import { Observable, from } from 'rxjs';
 })
 export class SynchroDbService {
   
-  newPostesTable: Dexie.Table<CreatePoste, uuid>;
+  newPostesTable: Dexie.Table<CreatePoste, string>;
 
   constructor() {
-    const db = new Dexie('offlineStorage');
+    const db = new Dexie('SynchroStorage');
     this.setDatabaseSchemaOverVersions(db);
     this.connectToDatabase(db);
   }
 
   private setDatabaseSchemaOverVersions(db): void {
     db.version(0.1).stores({
-      newPostesBuffer: 'stackOrder, title',
+      newPostesBuffer: 'id, title',
     });
   }
 
@@ -31,20 +31,22 @@ export class SynchroDbService {
     return from(this.newPostesTable.toArray());
   }
 
-  insertNewPoste(poste: CreatePoste): Observable<void> {
+  insertNewPoste(poste: CreatePoste): Observable<CreatePoste> {
     poste.id = uuid();
-    return from(this.newPostesTable.add(poste).then(() => undefined));
+    poste.dateCreated = new Date();
+    return from(this.newPostesTable.add(poste).then(() => poste));
   }
 
-  updatePoste(id: uuid, poste: CreatePoste): Observable<number> {
+  updatePoste(id: string, poste: CreatePoste): Observable<number> {
+    poste.dateCreated = new Date();
     return from(this.newPostesTable.update(id, poste));
   }
 
-  removeSavedPostById(id: uuid) {
+  removeSavedPostById(id: string) {
     return from(this.newPostesTable.delete(id));
   }
 
-  findPosteById(id: uuid): Observable<CreatePoste> {
+  findPosteById(id: string): Observable<CreatePoste> {
     return from(this.newPostesTable
       .get(id)
       .then(poste => !!poste ? Promise.resolve(poste) : Promise.reject(`Cannot find not syncronised created poste with id ${id}`))
