@@ -50,8 +50,8 @@ export class PosteCreateComponent implements OnInit {
       .subscribe(
         poste => this.router.navigate(['postes', poste.id]),
         () => {
-          this.errorManager.showInfoMessage('Impossible de sauvgarder le poste en ligne pour le moment, le post est enregistrer hors ligne');
-          this.saveOfflinePost(newPoste)
+          this.errorManager.showInfoMessage('Impossible de sauvgarder le poste en ligne pour le moment, post est enregistré hors ligne');
+          this.saveOfflinePost(newPoste);
         }
       );
   }

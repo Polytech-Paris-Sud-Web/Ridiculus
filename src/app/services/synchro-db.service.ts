@@ -8,7 +8,7 @@ import { Observable, from } from 'rxjs';
   providedIn: 'root'
 })
 export class SynchroDbService {
-  
+
   newPostesTable: Dexie.Table<CreatePoste, string>;
 
   constructor() {
