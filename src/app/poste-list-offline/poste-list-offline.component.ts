@@ -81,7 +81,7 @@ export class PosteListOfflineComponent implements OnInit {
       .subscribe(
         () => this.refreshCreatedPosteListe(),
         error => this.errorManager.showErrorMessage('Impossible de supprimer le poste', error)
-      )
+      );
   }
 
   publishCreatedPostById(id: string): void {
@@ -92,7 +92,7 @@ export class PosteListOfflineComponent implements OnInit {
       .subscribe(
         poste => this.removeOfflineAddOnlinePoste(poste),
         error => this.errorManager.showErrorMessage('Impossible d\'obtenir le poste demandé', error)
-      )
+      );
   }
 
   private removeOfflineAddOnlinePoste(poste: CreatePoste): void {
@@ -109,7 +109,7 @@ export class PosteListOfflineComponent implements OnInit {
           this.refreshCreatedPosteListe();
           this.errorManager.showErrorMessage('Impossible de publier ce poste en ligne', error);
         }
-      )
+      );
   }
 
   ngOnInit(): void {

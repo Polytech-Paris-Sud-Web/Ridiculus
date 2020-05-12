@@ -33,6 +33,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { OfflineDBService } from './services/offline-db.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DeleteDialogComponent } from './common/delete-dialog/delete-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: PosteListComponent },
@@ -49,7 +51,8 @@ const appRoutes: Routes = [
     PosteListComponent,
     MenuComponent,
     PosteCreateComponent,
-    PosteListOfflineComponent
+    PosteListOfflineComponent,
+    DeleteDialogComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -71,7 +74,8 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatProgressBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [
     {

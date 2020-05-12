@@ -19,6 +19,6 @@ export class ErrorManagerService {
     this.errorMessageBar.open(infoMessage, 'Ok', {
       duration: 5000,
     });
-  } 
+  }
 
 }
