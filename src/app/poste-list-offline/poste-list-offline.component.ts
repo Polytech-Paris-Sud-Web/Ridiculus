@@ -39,8 +39,6 @@ export class PosteListOfflineComponent implements OnInit {
     private onlinePosteSource: PosteSource,
   ) {
     this.loadingBuff = 0;
-    this.refreshPostList();
-    this.refreshCreatedPosteListe();
   }
 
   refreshPostList(): void {
@@ -113,5 +111,7 @@ export class PosteListOfflineComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.refreshPostList();
+    this.refreshCreatedPosteListe();
   }
 }

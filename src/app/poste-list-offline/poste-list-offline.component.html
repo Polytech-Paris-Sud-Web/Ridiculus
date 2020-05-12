@@ -68,7 +68,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="editAction">
-                    <th id="row_date_update" mat-header-cell *matHeaderCellDef mat-sort-header> Modifier
+                    <th id="row_date_update" mat-header-cell *matHeaderCellDef> Modifier
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-icon-button disabled color="primary">
@@ -78,7 +78,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="publishAction">
-                    <th id="row_date_update" mat-header-cell *matHeaderCellDef mat-sort-header> Publier en ligne
+                    <th id="row_date_update" mat-header-cell *matHeaderCellDef> Publier en ligne
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-icon-button color="primary" (click)="publishCreatedPostById(element.id)">
@@ -88,7 +88,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="deleteAction">
-                    <th id="row_date_update" mat-header-cell *matHeaderCellDef mat-sort-header> Supprimer
+                    <th id="row_date_update" mat-header-cell *matHeaderCellDef> Supprimer
                     </th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-icon-button color="warn" (click)="deleteCreatedPosteById(element.id)">
