@@ -15,7 +15,7 @@ export class PosteServiceInMemory implements PosteSource {
     private offlineDBService: OfflineDBService
   ) {
     this.postes.push({
-      id: 1234,
+      id: '1234',
       title: 'Coudre avec une pompe à vélo (facile)',
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tempus auctor sem quis varius.
         Ut tortor mauris, cursus quis rutrum nec, maximus in quam. Aenean porttitor auctor sapien sed molestie.
@@ -63,7 +63,7 @@ export class PosteServiceInMemory implements PosteSource {
       vote: 7
     });
     this.postes.push({
-      id: 5678,
+      id: '5678',
       title: 'Manger avec une pompe à vélo (facile)',
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tempus auctor sem quis varius.
         Ut tortor mauris, cursus quis rutrum nec, maximus in quam. Aenean porttitor auctor sapien sed molestie.
@@ -124,7 +124,7 @@ export class PosteServiceInMemory implements PosteSource {
   addPoste(posteData: CreatePoste): Observable<Poste> {
     const newPoste: Poste = {
       ...posteData,
-      id: this.postes.length,
+      id: this.postes.length.toString(),
       vote: 0,
       dateCreated: new Date(),
       dateUploaded: new Date(),
