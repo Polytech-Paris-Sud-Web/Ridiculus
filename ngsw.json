@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1589271606397,
+  "timestamp": 1589277979844,
   "index": "/Ridiculus/index.html",
   "assetGroups": [
     {
@@ -10,8 +10,8 @@
       "urls": [
         "/Ridiculus/favicon.ico",
         "/Ridiculus/index.html",
-        "/Ridiculus/main-es2015.9a4e3e7e79e3373fb485.js",
-        "/Ridiculus/main-es5.9a4e3e7e79e3373fb485.js",
+        "/Ridiculus/main-es2015.a4331b2505501852f450.js",
+        "/Ridiculus/main-es5.a4331b2505501852f450.js",
         "/Ridiculus/manifest.webmanifest",
         "/Ridiculus/polyfills-es2015.1f913f16a2d346cc8bdc.js",
         "/Ridiculus/polyfills-es5.1a3c78b07cd6f16c6e9a.js",
@@ -49,9 +49,9 @@
     "/Ridiculus/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
     "/Ridiculus/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/Ridiculus/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/Ridiculus/index.html": "86c072d2b44fa7f3603a389ffbc39f883a3a84ab",
-    "/Ridiculus/main-es2015.9a4e3e7e79e3373fb485.js": "43bb88ac7fa5a5f191b69b003892fe044b420842",
-    "/Ridiculus/main-es5.9a4e3e7e79e3373fb485.js": "ea6d4a32329d8165dee2bb9537ef31fd267e31ec",
+    "/Ridiculus/index.html": "f9c86bc52d556eeafbb241ffa88210139157c800",
+    "/Ridiculus/main-es2015.a4331b2505501852f450.js": "ade392c5b9ad78dd923364b864e71adf0b46101b",
+    "/Ridiculus/main-es5.a4331b2505501852f450.js": "b751626175ee83fe1b5a87461c2bc1ff52d21b14",
     "/Ridiculus/manifest.webmanifest": "7d674ea76946075d9db2fd0347880aeca0d48e8d",
     "/Ridiculus/polyfills-es2015.1f913f16a2d346cc8bdc.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
     "/Ridiculus/polyfills-es5.1a3c78b07cd6f16c6e9a.js": "87006d1f609b94ee122cc7790b1ddb5e03d8eaa6",
