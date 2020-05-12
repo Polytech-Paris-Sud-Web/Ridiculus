@@ -17,7 +17,7 @@ export interface Poste extends PosteLight {
 }
 
 export interface CreatePoste {
-    id?: uuid;
+    id?: string;
     title: string;
     content: string;
     author: string;
