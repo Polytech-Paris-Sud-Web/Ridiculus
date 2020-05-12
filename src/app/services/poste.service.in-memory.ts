@@ -4,6 +4,7 @@ import { Poste, PosteLight, CreatePoste, VoteType } from '../poste/poste.class';
 import { PosteSource } from './poste.source';
 import { ID } from '../common.class';
 import { OfflineDBService } from './offline-db.service';
+import { stringify } from 'querystring';
 
 @Injectable()
 export class PosteServiceInMemory implements PosteSource {
@@ -165,6 +166,11 @@ export class PosteServiceInMemory implements PosteSource {
     } else {
       return this.offlineDBService.findPosteById(id);
     }
+  }
+
+  filterPoste(filter: string): Observable<PosteLight[]> {
+    const containStr = (field: string) => field.toUpperCase().indexOf(filter.toUpperCase()) >= 0;
+    return of(this.postes.filter(poste => containStr(poste.title) || containStr(poste.author) || containStr(poste.content)));
   }
 
   setPostVoteForUser(posteId: ID, user: string, vote: number): Observable<number> {

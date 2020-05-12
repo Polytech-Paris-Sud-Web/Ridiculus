@@ -33,6 +33,10 @@ export class PosteServiceHTTP implements PosteSource {
     return this.http.get<Poste>(`${this.href}/postes/${id}`);
   }
 
+  filterPoste(filter: string): Observable<PosteLight[]> {
+    return throwError('Method not implemented.');
+  }
+
 
   setPostVoteForUser(posteId: ID, user: string, vote: number): Observable<number> {
     return throwError('Method not implemented.');

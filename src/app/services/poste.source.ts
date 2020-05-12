@@ -14,6 +14,8 @@ export abstract class PosteSource {
 
     abstract deletePoste(id: ID): Observable<void>;
 
+    abstract filterPoste(filter: string): Observable<PosteLight[]>;
+
 
     abstract getPostVoteForUser(posteId: ID, user: string): Observable<VoteType>;
 
