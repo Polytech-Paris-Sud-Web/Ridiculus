@@ -3,7 +3,7 @@ import { Location } from '@angular/common';
 import { finalize } from 'rxjs/operators';
 import { Poste, VoteType } from './poste.class';
 import { PosteSource } from '../services/poste.source';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorManagerService } from '../services/error-manager.service';
 import { ID } from '../common.class';
 import { OfflineDBService } from '../services/offline-db.service';
@@ -32,6 +32,7 @@ export class PosteComponent implements OnInit {
     private deleteDialog: MatDialog,
     private offlineDBService: OfflineDBService,
     private errorManager: ErrorManagerService,
+    private router: Router,
     private location: Location,
     private route: ActivatedRoute,
     private posteSource: PosteSource
@@ -141,7 +142,7 @@ export class PosteComponent implements OnInit {
           .pipe(finalize(() => this.loadingBuff--))
           .subscribe(
             () => {
-              this.location.back();
+              this.router.navigate(['postes']);
               this.errorManager.showInfoMessage('Poste supprimé avec succès.');
             },
             error => this.errorManager.showErrorMessage('Impossible de supprimer le poste.', error)
