@@ -2,24 +2,22 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const cors = require('cors');
 
 app.use(bodyParser.json())
+app.use(cors());
 
 //import routes
 const postesRoute = require('./routes/postes')
 const usersRoute = require('./routes/users')
 const commentairesRoute = require('./routes/commentaires')
 
-
 app.use('/postes', postesRoute)
 app.use('/users', usersRoute)
 app.use('/commentaires', commentairesRoute)
 
-
-
-//routes
 app.get('/', (req, res) => {
-    res.send('Menu principal')
+    res.send("Bienvenue sur l'API de Ridiculus !")
 })
 
 //Connect to mongodb
