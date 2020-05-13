@@ -8,7 +8,7 @@ export interface PosteLight {
     dateCreated: Date;
     dateUploaded: Date;
     modificator: string;
-    dateModificator: Date;
+    dateUpdated: Date;
     vote: number;
 }
 

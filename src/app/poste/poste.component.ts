@@ -9,7 +9,7 @@ import { ID } from '../common.class';
 import { OfflineDBService } from '../services/offline-db.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteDialogComponent } from '../common/delete-dialog/delete-dialog.component';
-import { merge } from 'rxjs';
+import { merge, concat } from 'rxjs';
 
 @Component({
   selector: 'app-poste',
@@ -60,7 +60,7 @@ export class PosteComponent implements OnInit {
   updateVote(vote: VoteType): void {
     this.loadingBuff++;
     this.posteSource
-      .setPostVoteForUser(this.poste.id, 'user', vote)
+      .setPostVoteForUser(this.poste.id, vote)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
         theVote => this.poste.vote = theVote,
@@ -71,7 +71,7 @@ export class PosteComponent implements OnInit {
   setUserVote(): void {
     this.loadingBuff++;
     this.posteSource
-      .getPostVoteForUser(this.poste.id, 'user')
+      .getPostVoteForUser(this.poste.id)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
         vote => this.userVote = vote,

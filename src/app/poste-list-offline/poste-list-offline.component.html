@@ -28,10 +28,10 @@
                     <td mat-cell *matCellDef="let element"> {{ element.author }} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="dateModificator">
+                <ng-container matColumnDef="dateUpdated">
                     <th id="row_date_update" mat-header-cell *matHeaderCellDef mat-sort-header> Dernière mise à jour
                     </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.dateModificator | date:'short' }} </td>
+                    <td mat-cell *matCellDef="let element"> {{ element.dateUpdated | date:'short' }} </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="posteColumns; sticky: true"></tr>
@@ -61,10 +61,10 @@
                     <td mat-cell *matCellDef="let element"> {{ element.title }} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="dateModificator">
+                <ng-container matColumnDef="dateUpdated">
                     <th id="row_date_update" mat-header-cell *matHeaderCellDef mat-sort-header> Dernière mise à jour
                     </th>
-                    <td mat-cell *matCellDef="let element"> {{ element.dateCreated | date:'short' }} </td>
+                    <td mat-cell *matCellDef="let element"> {{ element.dateUpdated | date:'short' }} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="editAction">

@@ -38,11 +38,11 @@ export class PosteServiceHTTP implements PosteSource {
   }
 
 
-  setPostVoteForUser(posteId: ID, user: string, vote: number): Observable<number> {
+  setPostVoteForUser(posteId: ID, vote: number): Observable<number> {
     return throwError('Method not implemented.');
   }
 
-  getPostVoteForUser(posteId: ID, user: string): Observable<VoteType> {
+  getPostVoteForUser(posteId: ID): Observable<VoteType> {
     return throwError('Method not implemented.');
   }
 

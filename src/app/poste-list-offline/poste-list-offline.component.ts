@@ -21,8 +21,8 @@ export class PosteListOfflineComponent implements OnInit {
   createPosteListe: CreatePoste[] = [];
   loadingBuff: number;
 
-  posteColumns: string[] = ['vote', 'title', 'author', 'dateModificator'];
-  createdPosteColumns: string[] = ['title', 'dateModificator', 'editAction', 'publishAction', 'deleteAction'];
+  posteColumns: string[] = ['vote', 'title', 'author', 'dateUpdated'];
+  createdPosteColumns: string[] = ['title', 'dateUpdated', 'editAction', 'publishAction', 'deleteAction'];
   dataSourceOfflinePostes: MatTableDataSource<PosteLight>;
   dataSourceCreatedPostes: MatTableDataSource<CreatePoste>;
 

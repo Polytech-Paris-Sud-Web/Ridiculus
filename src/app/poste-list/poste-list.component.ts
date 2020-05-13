@@ -21,7 +21,7 @@ export class PosteListComponent implements OnInit {
   posteList: PosteLight[] = [];
   loadingBuff: number;
 
-  displayedColumns: string[] = ['vote', 'title', 'author', 'dateModificator'];
+  displayedColumns: string[] = ['vote', 'title', 'author', 'dateUpdated'];
   dataSource: MatTableDataSource<PosteLight>;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
