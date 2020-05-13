@@ -22,7 +22,7 @@ export class UserService {
 
   askForUserId(username: string): Observable<User> {
     return of({
-      id: Math.random().toString(),
+      _id: Math.random().toString(),
       name: "username"
     });
   }

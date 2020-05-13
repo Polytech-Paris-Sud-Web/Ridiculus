@@ -97,7 +97,7 @@ export class PosteListOfflineComponent implements OnInit {
     this.loadingBuff++;
     concat(
       this.onlinePosteSource.addPoste(poste),
-      this.synchroDbService.removeSavedPostById(poste.id)
+      this.synchroDbService.removeSavedPostById(poste._id)
     )
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(

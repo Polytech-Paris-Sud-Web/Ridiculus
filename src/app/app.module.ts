@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -83,7 +83,7 @@ const appRoutes: Routes = [
       deps: [HttpClient, OfflineDBService],
       useFactory: (httpClient, offlineDBService) => {
         if (environment.disableInMemory) {
-          return new PosteServiceHTTP(httpClient);
+          return new PosteServiceHTTP(httpClient, offlineDBService);
         } else {
           return new PosteServiceInMemory(offlineDBService);
         }

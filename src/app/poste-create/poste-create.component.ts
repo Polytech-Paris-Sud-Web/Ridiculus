@@ -48,7 +48,7 @@ export class PosteCreateComponent implements OnInit {
       .addPoste(newPoste)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
-        poste => this.router.navigate(['postes', poste.id]),
+        poste => this.router.navigate(['postes', poste._id]),
         () => {
           this.errorManager.showInfoMessage('Impossible de sauvgarder le poste en ligne pour le moment, post est enregistré hors ligne');
           this.saveOfflinePost(newPoste);
