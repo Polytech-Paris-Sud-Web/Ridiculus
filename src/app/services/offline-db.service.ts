@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
 import { PosteLight, Poste } from '../poste/poste.class';
-import { Observable, from } from 'rxjs';
-import { ID } from '../common.class';
+import { Observable, from, of } from 'rxjs';
+import { ID, User } from '../common.class';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +10,7 @@ import { ID } from '../common.class';
 export class OfflineDBService {
 
   private posteTable: Dexie.Table<Poste, ID>;
+  private userTable: Dexie.Table<User, ID>;
 
   constructor() {
     const db = new Dexie('offlineStorage');
@@ -20,11 +21,13 @@ export class OfflineDBService {
   private setDatabaseSchemaOverVersions(db): void {
     db.version(0.1).stores({
       postes: 'id,title',
+      user: 'id,name'
     });
   }
 
   private connectToDatabase(db): void {
     this.posteTable = db.table('postes');
+    this.userTable = db.table('user');
   }
 
   getPostes(): Observable<PosteLight[]> {
@@ -59,6 +62,20 @@ export class OfflineDBService {
 
   isPosteOffline(id: ID): Observable<boolean> {
     return from(this.posteTable.get(id).then((poste) => !!poste));
+  }
+
+  setUser(user: User): Observable<void> {
+    return from(
+      this.userTable.clear()
+      .then(() => this.userTable.add(user))
+      .then(() => undefined)
+    );
+  }
+
+  getUser(): Observable<User> {
+    return from(this.userTable.toArray()
+      .then(user => user[0] ? Promise.resolve(user[0]) : Promise.reject(`No current user found`))
+    );
   }
 
 }

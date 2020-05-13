@@ -61,7 +61,7 @@ export class PosteServiceInMemory implements PosteSource {
       dateCreated: new Date(),
       dateUploaded: new Date(),
       modificator: 'l\'autre personne',
-      dateModificator: new Date(),
+      dateUpdated: new Date(),
       vote: 7
     });
     this.postes.push({
@@ -109,7 +109,7 @@ export class PosteServiceInMemory implements PosteSource {
       dateCreated: new Date(),
       dateUploaded: new Date(),
       modificator: 'lui là',
-      dateModificator: new Date('2020/11/11 12:35:00'),
+      dateUpdated: new Date('2020/11/11 12:35:00'),
       vote: 3
     });
   }
@@ -131,7 +131,7 @@ export class PosteServiceInMemory implements PosteSource {
       dateCreated: posteData.dateCreated || new Date(),
       dateUploaded: new Date(),
       modificator: posteData.author,
-      dateModificator: new Date(),
+      dateUpdated: new Date(),
     };
 
     this.postes.push(newPoste);
@@ -174,7 +174,8 @@ export class PosteServiceInMemory implements PosteSource {
     return of(this.postes.filter(poste => containStr(poste.title) || containStr(poste.author) || containStr(poste.content)));
   }
 
-  setPostVoteForUser(posteId: ID, user: string, vote: number): Observable<number> {
+  setPostVoteForUser(posteId: ID, vote: number): Observable<number> {
+    // for a user
     const thePoste = this.postes.find(poste => poste.id === posteId);
     if (thePoste) {
       thePoste.vote += vote - (this.userVotes[posteId] || 0);
@@ -186,7 +187,8 @@ export class PosteServiceInMemory implements PosteSource {
     return of(thePoste.vote);
   }
 
-  getPostVoteForUser(posteId: ID, user: string): Observable<VoteType> {
+  getPostVoteForUser(posteId: ID): Observable<VoteType> {
+    // for a user
     const userVote = this.userVotes[posteId] || 0;
     return of(userVote);
   }
