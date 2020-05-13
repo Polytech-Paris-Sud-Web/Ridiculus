@@ -121,6 +121,8 @@ export class PosteComponent implements OnInit {
         }
       );
   }
+
+
   deletePoste(id: string){
     this.posteSource.deletePoste(id);
   }
@@ -136,5 +138,5 @@ export class PosteComponent implements OnInit {
     }
     
   }
-  
+
 }

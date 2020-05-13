@@ -13,6 +13,7 @@ import { PosteListComponent } from './poste-list/poste-list.component';
 import { MenuComponent } from './menu/menu.component';
 import { PosteCreateComponent } from './poste-create/poste-create.component';
 import { PosteListOfflineComponent } from './poste-list-offline/poste-list-offline.component';
+import { PosteModifyComponent } from './poste-modify/poste-modify.component'
 // Services
 import { PosteSource } from './services/poste.source';
 import { PosteServiceHTTP } from './services/poste.service.http';
@@ -40,6 +41,7 @@ const appRoutes: Routes = [
   { path: 'postes/:id', component: PosteComponent },
   { path: 'offline-postes', component: PosteListOfflineComponent },
   { path: 'new-poste', component: PosteCreateComponent },
+  { path: 'modify-poste/:id', component: PosteModifyComponent }
 ];
 
 @NgModule({
@@ -49,7 +51,8 @@ const appRoutes: Routes = [
     PosteListComponent,
     MenuComponent,
     PosteCreateComponent,
-    PosteListOfflineComponent
+    PosteListOfflineComponent,
+    PosteModifyComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
