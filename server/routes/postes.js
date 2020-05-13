@@ -33,8 +33,8 @@ router.post('/', async (req,res) => {
         content: req.body.content,
         author: req.body.author,
         dateCreated: req.body.dateCreated,
-        dateUpdated: req.body.dateUpdated,
-        vote: req.body.vote
+        dateUpdated: new Date(),
+        vote: 0
     })
     
     try{
