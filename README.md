@@ -1,31 +1,39 @@
 
 
-link: https://polytech-paris-sud-web.github.io/Ridiculus/
+Lien vers le site hosté: https://polytech-paris-sud-web.github.io/Ridiculus/
 
 # Ridiculus
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
+Participants : CASSIER Régis, DETCHEBERRY Valentin, VICENS Maxime, VUILLEMIN Anthony
 
-## Development server
+Nom de l'équipe : Ridiculus
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Technologies
 
-## Code scaffolding
+Front : Angular.js 9.0.7, Angular materials et Dexie3
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Back : API Express, Mongoose, Body-parser et Mongodb
+
+Pourquoi Angular:
+
+Pourquoi Dexie3:
+
+Pourquoi Express/mongoose/body-parser:
+Créer une API nous a semblé logique suite au cours de micro-services que nous avons eu plus tôt cette année. Cela permet de faciliter la communication et de créer un service facilement améliorable. Mongoose permet de faciliter les requêtes vers Mongodb, et body-parser permet de transformer en json tous les objets envoyés par le front.
+
+Pourquoi Mongodb:
+Cette BD facilite la communication avec le front car elle stoque directement des fichiers JSON.
+
+## Lancement du projet en local
+
+Run `npm install` puis `ng serve` à la racine. Aller sur `http://localhost:4200/` pour accéder au site web.
+
+Run `npm install` puis `npm start` dans le dossier server. Si environnement de prod, aller dans /src/environments/environment.prod.ts et indiquer `data_href: 'http://localhost:3000'`. Si environnement de test, faire la manip dans /src/environments/environment.ts.
+
+## API dédiée
+
+L'API est lancée sur le pc de Valentin, pour cela j'ai configuré mon IP comme statique. Toutefois, je couperai le serveur à partir de dimanche. Si vous voulez faire des tests alors que le serveur est éteint, n'hésitez pas à me contacter sur slack/discord/mail pour que je le relance.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Run `npm run build --prefix $source_path -- --prod --aot --output-hashing="all" --base-href="/$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)/" --output-path="$build_path"`
