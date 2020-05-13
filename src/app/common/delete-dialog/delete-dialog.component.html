@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Êtes-vous certain de vouloir supprimer cet élement</h1>
+<div mat-dialog-content>
+  <p>Ecrivez <strong>{{data}}</strong> afin de valider la suppression.</p>
+  <form [formGroup]="repeatTextForm">
+    <mat-form-field class="full-width">
+      <mat-label>écrivez</mat-label>
+      <input matInput cdkFocusInitial formControlName="confirmation" autocomplete="off">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <span>
+    <button mat-button [mat-dialog-close]="true" [disabled]="repeatTextForm.invalid" color="warn">
+      <mat-icon>delete</mat-icon> Supprimer
+    </button></span>
+  <span class="spacer"></span>
+  <span>
+    <button mat-button (click)="onNoClick()">Annuler</button>
+  </span>
+</div>

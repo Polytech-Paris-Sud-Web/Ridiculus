@@ -1,0 +1,20 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+@media(max-width: 950px){
+  .horizontal-menu {
+    display: none;
+  }
+  .btn-menu {
+    display: auto;
+  }
+}
+@media(min-width: 950px){
+  .horizontal-menu {
+    display: auto;
+  }
+  .btn-menu {
+    display: none;
+  }
+}
