@@ -127,6 +127,10 @@ export class PosteComponent implements OnInit {
       );
   }
 
+  deletePoste(id: string){
+    this.posteSource.deletePoste(id);
+  }
+
   openConfirmDeleteDialog(): void {
     const dialogRef = this.deleteDialog.open(DeleteDialogComponent, {
       data: this.poste.title,
