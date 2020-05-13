@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  disableInMemory: false,
-  data_href: 'http://localhost:3000',
+  disableInMemory: true,
+  data_href: 'http://86.70.78.200:3001',
 };
 
 /*

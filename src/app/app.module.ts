@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -34,6 +34,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { OfflineDBService } from './services/offline-db.service';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DeleteDialogComponent } from './common/delete-dialog/delete-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: PosteListComponent },
@@ -52,7 +54,9 @@ const appRoutes: Routes = [
     MenuComponent,
     PosteCreateComponent,
     PosteListOfflineComponent,
-    PosteModifyComponent
+    PosteModifyComponent,
+    DeleteDialogComponent
+
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -74,7 +78,8 @@ const appRoutes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatProgressBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [
     {
@@ -82,7 +87,7 @@ const appRoutes: Routes = [
       deps: [HttpClient, OfflineDBService],
       useFactory: (httpClient, offlineDBService) => {
         if (environment.disableInMemory) {
-          return new PosteServiceHTTP(httpClient);
+          return new PosteServiceHTTP(httpClient, offlineDBService);
         } else {
           return new PosteServiceInMemory(offlineDBService);
         }

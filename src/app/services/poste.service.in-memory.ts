@@ -5,7 +5,9 @@ import { PosteSource } from './poste.source';
 import { ID } from '../common.class';
 import { OfflineDBService } from './offline-db.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PosteServiceInMemory implements PosteSource {
 
   private postes: Poste[] = [];
@@ -15,7 +17,7 @@ export class PosteServiceInMemory implements PosteSource {
     private offlineDBService: OfflineDBService
   ) {
     this.postes.push({
-      id: '1234',
+      _id: '1234',
       title: 'Coudre avec une pompe à vélo (facile)',
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tempus auctor sem quis varius.
         Ut tortor mauris, cursus quis rutrum nec, maximus in quam. Aenean porttitor auctor sapien sed molestie.
@@ -59,11 +61,11 @@ export class PosteServiceInMemory implements PosteSource {
       dateCreated: new Date(),
       dateUploaded: new Date(),
       modificator: 'l\'autre personne',
-      dateModificator: new Date(),
+      dateUpdated: new Date(),
       vote: 7
     });
     this.postes.push({
-      id: '5678',
+      _id: '5678',
       title: 'Manger avec une pompe à vélo (facile)',
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus tempus auctor sem quis varius.
         Ut tortor mauris, cursus quis rutrum nec, maximus in quam. Aenean porttitor auctor sapien sed molestie.
@@ -107,7 +109,7 @@ export class PosteServiceInMemory implements PosteSource {
       dateCreated: new Date(),
       dateUploaded: new Date(),
       modificator: 'lui là',
-      dateModificator: new Date('2020/11/11 12:35:00'),
+      dateUpdated: new Date('2020/11/11 12:35:00'),
       vote: 3
     });
   }
@@ -124,12 +126,12 @@ export class PosteServiceInMemory implements PosteSource {
   addPoste(posteData: CreatePoste): Observable<Poste> {
     const newPoste: Poste = {
       ...posteData,
-      id: this.postes.length.toString(),
+      _id: this.postes.length.toString(),
       vote: 0,
-      dateCreated: new Date(),
+      dateCreated: posteData.dateCreated || new Date(),
       dateUploaded: new Date(),
       modificator: posteData.author,
-      dateModificator: new Date(),
+      dateUpdated: new Date(),
     };
 
     this.postes.push(newPoste);
@@ -137,7 +139,7 @@ export class PosteServiceInMemory implements PosteSource {
   }
 
   updatePoste(id: ID, posteData: Poste): Observable<Poste> {
-    const postIndex = this.postes.findIndex(_ => _.id === id);
+    const postIndex = this.postes.findIndex(_ => _._id === id);
     if (postIndex !== -1) {
       this.postes.splice(postIndex, 1, posteData);
       this.offlineDBService.updatePoste(id, posteData).subscribe();
@@ -148,7 +150,7 @@ export class PosteServiceInMemory implements PosteSource {
   }
 
   deletePoste(id: ID): Observable<void> {
-    const postIndex = this.postes.findIndex(_ => _.id === id);
+    const postIndex = this.postes.findIndex(_ => _._id === id);
     if (postIndex !== -1) {
       this.postes.splice(postIndex, 1);
       return this.offlineDBService.removePoste(id);
@@ -158,17 +160,23 @@ export class PosteServiceInMemory implements PosteSource {
   }
 
   getPosteById(id: ID): Observable<Poste> {
-    const poste = this.postes.find(_ => _.id === id);
+    const poste = this.postes.find(_ => _._id === id);
     if (poste) {
-      this.offlineDBService.updatePoste(poste.id, poste).subscribe();
+      this.offlineDBService.updatePoste(poste._id, poste).subscribe();
       return of(poste);
     } else {
       return this.offlineDBService.findPosteById(id);
     }
   }
 
-  setPostVoteForUser(posteId: ID, user: string, vote: number): Observable<number> {
-    const thePoste = this.postes.find(poste => poste.id === posteId);
+  filterPoste(filter: string): Observable<PosteLight[]> {
+    const containStr = (field: string) => field.toUpperCase().indexOf(filter.toUpperCase()) >= 0;
+    return of(this.postes.filter(poste => containStr(poste.title) || containStr(poste.author) || containStr(poste.content)));
+  }
+
+  setPostVoteForUser(posteId: ID, vote: number): Observable<number> {
+    // for a user
+    const thePoste = this.postes.find(poste => poste._id === posteId);
     if (thePoste) {
       thePoste.vote += vote - (this.userVotes[posteId] || 0);
       this.userVotes[posteId] = vote;
@@ -179,7 +187,8 @@ export class PosteServiceInMemory implements PosteSource {
     return of(thePoste.vote);
   }
 
-  getPostVoteForUser(posteId: ID, user: string): Observable<VoteType> {
+  getPostVoteForUser(posteId: ID): Observable<VoteType> {
+    // for a user
     const userVote = this.userVotes[posteId] || 0;
     return of(userVote);
   }

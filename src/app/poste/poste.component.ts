@@ -3,10 +3,13 @@ import { Location } from '@angular/common';
 import { finalize } from 'rxjs/operators';
 import { Poste, VoteType } from './poste.class';
 import { PosteSource } from '../services/poste.source';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorManagerService } from '../services/error-manager.service';
 import { ID } from '../common.class';
 import { OfflineDBService } from '../services/offline-db.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteDialogComponent } from '../common/delete-dialog/delete-dialog.component';
+import { merge, concat } from 'rxjs';
 
 @Component({
   selector: 'app-poste',
@@ -26,8 +29,10 @@ export class PosteComponent implements OnInit {
 
 
   constructor(
+    private deleteDialog: MatDialog,
     private offlineDBService: OfflineDBService,
     private errorManager: ErrorManagerService,
+    private router: Router,
     private location: Location,
     private route: ActivatedRoute,
     private posteSource: PosteSource
@@ -38,7 +43,7 @@ export class PosteComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(
       params => {
-        if (!isNaN(params.id)) {
+        if (params.id) {
           this.updatePoste(params.id);
         } else {
           this.updateUserOfflineAccess();
@@ -55,7 +60,7 @@ export class PosteComponent implements OnInit {
   updateVote(vote: VoteType): void {
     this.loadingBuff++;
     this.posteSource
-      .setPostVoteForUser(this.poste.id, 'user', vote)
+      .setPostVoteForUser(this.poste._id, vote)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
         theVote => this.poste.vote = theVote,
@@ -66,7 +71,7 @@ export class PosteComponent implements OnInit {
   setUserVote(): void {
     this.loadingBuff++;
     this.posteSource
-      .getPostVoteForUser(this.poste.id, 'user')
+      .getPostVoteForUser(this.poste._id)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
         vote => this.userVote = vote,
@@ -80,7 +85,7 @@ export class PosteComponent implements OnInit {
 
     const updateOfflinePosteList = willHaveOnlineAccessToPost
       ? this.offlineDBService.insertPoste(this.poste)
-      : this.offlineDBService.removePoste(this.poste.id);
+      : this.offlineDBService.removePoste(this.poste._id);
 
     updateOfflinePosteList
       .pipe(finalize(() => this.loadingBuff--))
@@ -92,7 +97,7 @@ export class PosteComponent implements OnInit {
 
   updateUserOfflineAccess(): void {
     this.loadingBuff++;
-    this.offlineDBService.isPosteOffline(this.poste.id)
+    this.offlineDBService.isPosteOffline(this.poste._id)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
         posteFound => this.userOfflineAccess = !!posteFound,
@@ -122,21 +127,32 @@ export class PosteComponent implements OnInit {
       );
   }
 
-
   deletePoste(id: string){
     this.posteSource.deletePoste(id);
   }
 
-  remove(){
-    var valeur = prompt("Pour confirmer la supression, entrer le nom du poste");
-    if (valeur == this.poste.title){
-      this.posteSource.deletePoste(this.poste.id);
-      alert("Poste " + valeur + " supprimé");
-    }
-    else{
-      alert("Poste non supprimé");
-    }
-    
+  openConfirmDeleteDialog(): void {
+    const dialogRef = this.deleteDialog.open(DeleteDialogComponent, {
+      data: this.poste.title,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadingBuff++;
+      if (result === true) {
+        merge(
+          this.posteSource.deletePoste(this.poste._id),
+          this.offlineDBService.removePoste(this.poste._id)
+        )
+          .pipe(finalize(() => this.loadingBuff--))
+          .subscribe(
+            () => {
+              this.router.navigate(['postes']);
+              this.errorManager.showInfoMessage('Poste supprimé avec succès.');
+            },
+            error => this.errorManager.showErrorMessage('Impossible de supprimer le poste.', error)
+          );
+      }
+    });
   }
 
 }

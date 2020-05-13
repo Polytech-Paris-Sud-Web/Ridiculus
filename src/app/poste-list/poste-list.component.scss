@@ -7,6 +7,14 @@ th.mat-sort-header-sorted {
 }
 
 tr.example-element-row:hover {
-    background: whitesmoke;
-    cursor: pointer;
-  }
+  background: whitesmoke;
+  cursor: pointer;
+}
+
+.form-full-width {
+  display: flex;
+}
+
+.field-full-width {
+  width: 100%;
+}
