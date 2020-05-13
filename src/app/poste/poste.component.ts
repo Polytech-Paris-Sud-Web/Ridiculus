@@ -43,7 +43,7 @@ export class PosteComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe(
       params => {
-        if (!isNaN(params.id)) {
+        if (params.id) {
           this.updatePoste(params.id);
         } else {
           this.updateUserOfflineAccess();
@@ -60,7 +60,7 @@ export class PosteComponent implements OnInit {
   updateVote(vote: VoteType): void {
     this.loadingBuff++;
     this.posteSource
-      .setPostVoteForUser(this.poste.id, vote)
+      .setPostVoteForUser(this.poste._id, vote)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
         theVote => this.poste.vote = theVote,
@@ -71,7 +71,7 @@ export class PosteComponent implements OnInit {
   setUserVote(): void {
     this.loadingBuff++;
     this.posteSource
-      .getPostVoteForUser(this.poste.id)
+      .getPostVoteForUser(this.poste._id)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
         vote => this.userVote = vote,
@@ -85,7 +85,7 @@ export class PosteComponent implements OnInit {
 
     const updateOfflinePosteList = willHaveOnlineAccessToPost
       ? this.offlineDBService.insertPoste(this.poste)
-      : this.offlineDBService.removePoste(this.poste.id);
+      : this.offlineDBService.removePoste(this.poste._id);
 
     updateOfflinePosteList
       .pipe(finalize(() => this.loadingBuff--))
@@ -97,7 +97,7 @@ export class PosteComponent implements OnInit {
 
   updateUserOfflineAccess(): void {
     this.loadingBuff++;
-    this.offlineDBService.isPosteOffline(this.poste.id)
+    this.offlineDBService.isPosteOffline(this.poste._id)
       .pipe(finalize(() => this.loadingBuff--))
       .subscribe(
         posteFound => this.userOfflineAccess = !!posteFound,
@@ -136,8 +136,8 @@ export class PosteComponent implements OnInit {
       this.loadingBuff++;
       if (result === true) {
         merge(
-          this.posteSource.deletePoste(this.poste.id),
-          this.offlineDBService.removePoste(this.poste.id)
+          this.posteSource.deletePoste(this.poste._id),
+          this.offlineDBService.removePoste(this.poste._id)
         )
           .pipe(finalize(() => this.loadingBuff--))
           .subscribe(

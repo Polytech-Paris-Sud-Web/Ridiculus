@@ -19,7 +19,7 @@ export class SynchroDbService {
 
   private setDatabaseSchemaOverVersions(db): void {
     db.version(0.1).stores({
-      newPostesBuffer: 'id, title',
+      newPostesBuffer: '_id, title',
     });
   }
 
@@ -32,7 +32,7 @@ export class SynchroDbService {
   }
 
   insertNewPoste(poste: CreatePoste): Observable<CreatePoste> {
-    poste.id = uuid();
+    poste._id = uuid();
     poste.dateCreated = new Date();
     return from(this.newPostesTable.add(poste).then(() => poste));
   }

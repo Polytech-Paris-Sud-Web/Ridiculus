@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
-import { PosteLight, Poste } from '../poste/poste.class';
+import { PosteLight, Poste, VoteType, Vote } from '../poste/poste.class';
 import { Observable, from, of } from 'rxjs';
 import { ID, User } from '../common.class';
 
@@ -11,6 +11,7 @@ export class OfflineDBService {
 
   private posteTable: Dexie.Table<Poste, ID>;
   private userTable: Dexie.Table<User, ID>;
+  private voteTable: Dexie.Table<Vote, ID>;
 
   constructor() {
     const db = new Dexie('offlineStorage');
@@ -20,14 +21,16 @@ export class OfflineDBService {
 
   private setDatabaseSchemaOverVersions(db): void {
     db.version(0.1).stores({
-      postes: 'id,title',
-      user: 'id,name'
+      postes: '_id,title',
+      user: '_id,name',
+      vote: 'id'
     });
   }
 
   private connectToDatabase(db): void {
     this.posteTable = db.table('postes');
     this.userTable = db.table('user');
+    this.voteTable = db.table('vote');
   }
 
   getPostes(): Observable<PosteLight[]> {
@@ -75,6 +78,17 @@ export class OfflineDBService {
   getUser(): Observable<User> {
     return from(this.userTable.toArray()
       .then(user => user[0] ? Promise.resolve(user[0]) : Promise.reject(`No current user found`))
+    );
+  }
+
+  setVote(vote: Vote): Observable<void> {
+    return from(this.voteTable.put(vote).then(() => undefined));
+  }
+
+  getVote(id: ID): Observable<VoteType> {
+    return from(this.voteTable
+      .get(id)
+      .then(vote => !!vote ? Promise.resolve(vote.nb) : Promise.resolve(VoteType.NONE) )
     );
   }
 

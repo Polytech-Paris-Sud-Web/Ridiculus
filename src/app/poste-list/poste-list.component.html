@@ -45,7 +45,7 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
-                [routerLink]="['/postes/', row.id]"></tr>
+                [routerLink]="['/postes/', row._id]"></tr>
 
 
         </table>

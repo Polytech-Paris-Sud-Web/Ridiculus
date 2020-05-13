@@ -36,7 +36,7 @@
 
                 <tr mat-header-row *matHeaderRowDef="posteColumns; sticky: true"></tr>
                 <tr mat-row *matRowDef="let row; columns: posteColumns;" class="example-element-row"
-                    [routerLink]="['/postes/', row.id]"></tr>
+                    [routerLink]="['/postes/', row._id]"></tr>
 
             </table>
 
@@ -81,7 +81,7 @@
                     <th id="row_date_update" mat-header-cell *matHeaderCellDef> Publier en ligne
                     </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button color="primary" (click)="publishCreatedPostById(element.id)">
+                        <button mat-icon-button color="primary" (click)="publishCreatedPostById(element._id)">
                             <mat-icon>publish</mat-icon>
                         </button>
                     </td>
@@ -91,7 +91,7 @@
                     <th id="row_date_update" mat-header-cell *matHeaderCellDef> Supprimer
                     </th>
                     <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button color="warn" (click)="deleteCreatedPosteById(element.id)">
+                        <button mat-icon-button color="warn" (click)="deleteCreatedPosteById(element._id)">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </td>

@@ -1,6 +1,6 @@
 export type ID = string;
 
 export interface User {
-    id: ID;
+    _id: ID;
     name: string;
 }
