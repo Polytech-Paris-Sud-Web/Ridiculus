@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   disableInMemory: true,
-  data_href: 'http://86.70.78.200:3001',
+  data_href: 'https://86.70.78.200:3001',
 };
 
 /*
