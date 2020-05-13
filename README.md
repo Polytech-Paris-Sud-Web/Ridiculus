@@ -26,9 +26,12 @@ Cette BD facilite la communication avec le front car elle stoque directement des
 
 ## Lancement du projet en local
 
-Run `npm install` puis `ng serve` à la racine. Aller sur `http://localhost:4200/` pour accéder au site web.
+Run `npm install` puis `npm start` dans le dossier server. Si vous voulez utiliser une BD locale : si environnement de prod, aller dans /src/environments/environment.prod.ts et indiquer `data_href: 'https://localhost:3000'`. Si environnement de test, faire la manip dans /src/environments/environment.ts.
 
-Run `npm install` puis `npm start` dans le dossier server. Si environnement de prod, aller dans /src/environments/environment.prod.ts et indiquer `data_href: 'http://localhost:3000'`. Si environnement de test, faire la manip dans /src/environments/environment.ts.
+Si vous utilisez l'API que l'on a créé, elle est disponible sur `https://https://86.70.78.200:3001/`. Vous devez accepter le certificat sur cette page avant d'accéder au site (pour chrome, pas pour firefox). Pour plus d'explications, cf paragraphe "soucis de certificats".
+
+Run `npm install` puis `npm start` à la racine. Vous devez d'abord aller sur `https://localhost:3000/` pour accepter le certificat. Aller ensuite sur `https://localhost:4200/` pour accéder au site web. 
+
 
 ## API dédiée
 
