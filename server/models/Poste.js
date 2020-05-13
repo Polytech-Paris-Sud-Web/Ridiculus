@@ -5,7 +5,8 @@ const posteSchema = mongoose.Schema({
     content : String,
     author : String,
     dateCreated : String,
-    dateUpdated : String
+    dateUpdated : String,
+    vote : Number
 })
 
 module.exports = mongoose.model('poste', posteSchema, 'postes')

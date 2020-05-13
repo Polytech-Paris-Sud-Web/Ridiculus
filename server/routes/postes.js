@@ -33,7 +33,8 @@ router.post('/', async (req,res) => {
         content: req.body.content,
         author: req.body.author,
         dateCreated: req.body.dateCreated,
-        dateUpdated: req.body.dateUpdated
+        dateUpdated: req.body.dateUpdated,
+        vote: req.body.vote
     })
     
     try{
@@ -65,7 +66,8 @@ router.put('/:id', async (req,res) => {
             content: req.body.content,
             author: req.body.author,
             dateCreated: req.body.dateCreated,
-            dateUpdated: req.body.dateUpdated}})
+            dateUpdated: req.body.dateUpdated,
+            vote: req.body.vote}})
         res.json(updatedPoste)
     }
     catch(err){
