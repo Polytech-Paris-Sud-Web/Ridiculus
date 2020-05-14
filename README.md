@@ -40,3 +40,40 @@ L'API est lancée sur le pc de Valentin, pour cela j'ai configuré mon IP comme 
 ## Build
 
 Run `npm run build --prefix $source_path -- --prod --aot --output-hashing="all" --base-href="/$(echo $GITHUB_REPOSITORY | cut -d '/' -f 2)/" --output-path="$build_path"`
+
+# Soucis de certificats
+
+## Mise en place du CORS (Cross origin ressource sharing)
+
+Notre application angular est hébergé par github. Notre API (serveur Node.js) est hébergé par nos soin sur une de nos machines. Afin de faire communiquer les 2 parties prenantes de l'application, il à fallut mettre autorisé le CORS (Cross Origin Ressource Sharing) sur notre serveur back-end.
+
+En effet, sans autoriser le CORS nous avions l'erreur suivante :
+
+Blocage d’une requête multiorigines (Cross-Origin Request) : la politique « Same Origin » ne permet pas de consulter la ressource distante située sur http://86.70.78.200:3001/postes/. Raison : échec de la requête CORS.
+
+
+Notre API tout comme notre application n'étant pas hebergées au même endroit, la communication est donc par defaut bloquée. La solution suivante a été mise en place : 
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+})
+
+
+De cette manière, tout les points d'entrées de l'API autorise le cross-domain.
+
+## Passage d'Angular en https
+
+Afin de passer l'application en https, nous avons généré un certificat auto-signé. Nous avons ensuite placer les certificat et la clef comme suit : 
+
+* appfolder
+    * ssl
+        * server.crt
+        * server.key
+
+Puis dans le package.json ajouter la ligne suivante : "start": "ng serve --ssl true". De cette manière, le démarage du serveur via la commande npm start va spécifié à angular d'utiliser le ssl. Notre application est à ce moment disponible uniquement en https
+
+## Problème sous chrome
+
+Sous chrome, le certificat chargé par Angular n'est pas automatiquement accepté pour utiliser notre API, nous devons avant ça accepté le certificat pour l'API via l'URL : https://86.70.78.200:3001. C'est un problème que nous devrons corriger par la suite de manière prioritaire.
