@@ -53,7 +53,7 @@
     <button mat-menu-item (click)="toggleOfflinePost()">
         <mat-icon [color]="userOfflineAccess ? 'primary' : 'default'">power_off</mat-icon>Accès hors ligne
     </button>
-    <button mat-menu-item [routerLink]="['/modify-post/', poste._id]">
+    <button mat-menu-item [routerLink]="['/modify-poste/', poste._id]">
         <mat-icon>edit</mat-icon>Editer
     </button>
     <button mat-menu-item (click)="openConfirmDeleteDialog()" >
