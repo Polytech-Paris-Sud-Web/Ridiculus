@@ -24,6 +24,12 @@ Créer une API nous a semblé logique suite au cours de micro-services que nous 
 Pourquoi Mongodb:
 Cette BD facilite la communication avec le front car elle stoque directement des fichiers JSON.
 
+Pourquoi Dexie:
+Dexie gère le stockage des données locales, il permet d'automatiser la transition entre différentes versions des bases de ces données. Il offre une interface simple pour interagir avec cette dernière.
+
+Pourquoi Angular Material:
+Angular material permet d'avoir accès à une librairie de composants tout fait que nous pouvons intégrer facilement à notre application.
+
 ## Lancement du projet en local
 
 Run `npm install` puis `npm start` dans le dossier server. Si vous voulez utiliser une BD locale : si environnement de prod, aller dans /src/environments/environment.prod.ts et indiquer `data_href: 'https://localhost:3000'`. Si environnement de test, faire la manip dans /src/environments/environment.ts.
