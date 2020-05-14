@@ -52,7 +52,7 @@ export class PosteModifyComponent implements OnInit {
     );
   }
 
-  updatePoste(id: ID) {
+  updatePoste(id: ID): void {
     this.loadingBuff++;
     this.posteSource
       .getPosteById(id)
@@ -84,10 +84,10 @@ export class PosteModifyComponent implements OnInit {
 
     this.modifyPoste(this.poste._id, title, content);
     this.loadingBuff--;
-    this.location.back();
+    //this.location.back();
   }
 
-  modifyPoste(id: ID, titre: string, contenue: string) {
+  modifyPoste(id: ID, titre: string, contenue: string): void {
     this.loadingBuff++;
     this.posteSource
       .getPosteById(id)
@@ -97,7 +97,12 @@ export class PosteModifyComponent implements OnInit {
           this.poste = poste;
           this.poste.title = titre;
           this.poste.content = contenue;
-          this.poste.dateUpdated = new Date()
+          this.poste.dateUpdated = new Date();
+          this.posteSource.updatePoste(this.poste._id, this.poste)
+            .subscribe(
+            () => this.location.back(),
+            error => this.errorManager.showErrorMessage('Impossible de mettre à jour le poste', error)
+          );
         },
         error => {
           if (!this.poste) {
