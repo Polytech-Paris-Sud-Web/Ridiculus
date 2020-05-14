@@ -79,8 +79,6 @@ export class PosteModifyComponent implements OnInit {
 
     const { title, content } = this.posteForm.value;
 
-    console.log(title);
-    console.log(content);
     this.modifyPoste(this.poste._id, title, content);
     this.loadingBuff--;
     this.location.back();
