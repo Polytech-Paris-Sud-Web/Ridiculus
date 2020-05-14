@@ -14,10 +14,6 @@ Front : Angular.js 9.0.7, Angular materials et Dexie3
 
 Back : API Express, Mongoose, Body-parser et Mongodb
 
-Pourquoi Angular:
-
-Pourquoi Dexie3:
-
 Pourquoi Express/mongoose/body-parser:
 Créer une API nous a semblé logique suite au cours de micro-services que nous avons eu plus tôt cette année. Cela permet de faciliter la communication et de créer un service facilement améliorable. Mongoose permet de faciliter les requêtes vers Mongodb, et body-parser permet de transformer en json tous les objets envoyés par le front.
 
