@@ -15,7 +15,6 @@ import { PosteCreateComponent } from './poste-create/poste-create.component';
 import { PosteListOfflineComponent } from './poste-list-offline/poste-list-offline.component';
 import { DeleteDialogComponent } from './common/delete-dialog/delete-dialog.component';
 import { PosteModifyComponent } from './poste-modify/poste-modify.component';
-
 // Services
 import { PosteSource } from './services/poste.source';
 import { PosteServiceHTTP } from './services/poste.service.http';

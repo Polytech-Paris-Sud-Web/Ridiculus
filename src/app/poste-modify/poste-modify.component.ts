@@ -31,14 +31,17 @@ export class PosteModifyComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
   ) {
-    
+    this.posteForm = this.fb.group({
+      title: ['', Validators.required],
+      content: ['', Validators.required]
+    });
     this.loadingBuff = 0;
   }
 
   ngOnInit(): void {
     this.route.params.subscribe(
       params => {
-        if (!isNaN(params.id)) {
+        if (params.id) {
           this.updatePoste(params.id);
         }
       },
