@@ -40,10 +40,6 @@ export class PosteModifyComponent implements OnInit {
       params => {
         if (!isNaN(params.id)) {
           this.updatePoste(params.id);
-          this.posteForm = this.fb.group({
-            title: [this.poste.title, Validators.required],
-            content: [this.poste.content, Validators.required]
-          });
         }
       },
       error => {
@@ -61,6 +57,10 @@ export class PosteModifyComponent implements OnInit {
       .subscribe(
         poste => {
           this.poste = poste;
+          this.posteForm = this.fb.group({
+            title: [this.poste.title, Validators.required],
+            content: [this.poste.content, Validators.required]
+          });
         },
         error => {
           if (!this.poste) {
