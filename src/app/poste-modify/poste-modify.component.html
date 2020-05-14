@@ -1,0 +1,32 @@
+<mat-progress-bar *ngIf="loadingBuff > 0" color="accent" mode="indeterminate"></mat-progress-bar>
+<mat-card>
+    <form [formGroup]="posteForm" (ngSubmit)="modify()">
+        <mat-card-header>
+            <mat-card-title>Modification d'un poste</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="form-full-width">
+                <mat-form-field class="field-full-width">
+                    <mat-label>titre</mat-label>
+                    <input matInput placeholder="le titre de votre poste" formControlName="title" autocomplete="off"/>
+                    <mat-error>Le titre d'un poste est obligatoire</mat-error>
+                </mat-form-field>
+                <br />
+                <mat-form-field class="field-full-width">
+                    <mat-label>contenue</mat-label>
+                    <textarea matInput placeholder="le contenue de votre poste" formControlName="content"></textarea>
+                    <mat-error>Le contenue d'un poste est obligatoire</mat-error>
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-stroked-button [disabled]="posteForm.invalid" type="submit">
+                <mat-icon>save</mat-icon> Enregirstrer
+            </button>
+            <button mat-stroked-button  onclick="javascript:history.back();">
+                <mat-icon>cancel</mat-icon> Annuler
+            </button>
+        </mat-card-actions>
+    </form>
+</mat-card>
