@@ -13,6 +13,9 @@ import { PosteListComponent } from './poste-list/poste-list.component';
 import { MenuComponent } from './menu/menu.component';
 import { PosteCreateComponent } from './poste-create/poste-create.component';
 import { PosteListOfflineComponent } from './poste-list-offline/poste-list-offline.component';
+import { DeleteDialogComponent } from './common/delete-dialog/delete-dialog.component';
+import { PosteModifyComponent } from './poste-modify/poste-modify.component';
+
 // Services
 import { PosteSource } from './services/poste.source';
 import { PosteServiceHTTP } from './services/poste.service.http';
@@ -34,7 +37,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { OfflineDBService } from './services/offline-db.service';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DeleteDialogComponent } from './common/delete-dialog/delete-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', component: PosteListComponent },
@@ -42,6 +44,7 @@ const appRoutes: Routes = [
   { path: 'postes/:id', component: PosteComponent },
   { path: 'offline-postes', component: PosteListOfflineComponent },
   { path: 'new-poste', component: PosteCreateComponent },
+  { path: 'modify-poste/:id', component: PosteModifyComponent },
 ];
 
 @NgModule({
@@ -52,7 +55,8 @@ const appRoutes: Routes = [
     MenuComponent,
     PosteCreateComponent,
     PosteListOfflineComponent,
-    DeleteDialogComponent
+    DeleteDialogComponent,
+    PosteModifyComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
